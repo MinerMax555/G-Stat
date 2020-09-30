@@ -1,6 +1,6 @@
 {
   "name": "gstat-map",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "G-Stat is a vue-based library built around Vue2Leaflet, which can display reactive areas and markers on a Leaflet map",
   "main": "dist/gstat-map.ssr.js",
   "browser": "dist/gstat-map.esm.js",
