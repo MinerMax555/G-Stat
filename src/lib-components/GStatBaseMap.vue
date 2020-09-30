@@ -134,4 +134,5 @@ export default {
 </script>
 
 <style>
+@import url('https://unpkg.com/leaflet@1.7.1/dist/leaflet.css');
 </style>
