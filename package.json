@@ -2,7 +2,7 @@
   "name": "gstat-map",
   "version": "1.0.1",
   "description": "G-Stat is a vue-based library built around Vue2Leaflet, which can display reactive areas and markers on a Leaflet map",
-  "main": "dist/entry.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format es",
     "lint": "vue-cli-service lint --no-fix"
@@ -10,12 +10,14 @@
   "dependencies": {
     "leaflet": "^1.7.1",
     "vue2-leaflet": "^2.5.2",
-    "vue2-leaflet-markercluster": "^3.1.0"
+    "vue2-leaflet-markercluster": "^3.1.0",
+    "@vue/composition-api": "1.0.0-beta.15"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-typescript": "^7.10.4",
+    "@betit/rollup-plugin-rename-extensions": "^0.1.0",
     "@rbnlffl/rollup-plugin-eslint": "^1.1.2",
     "@rollup/plugin-alias": "^3.1.1",
     "@rollup/plugin-commonjs": "^15.1.0",
@@ -43,6 +45,7 @@
     "rollup": "^2.28.2",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.27.3",
     "rollup-plugin-vue": "^5.1.9",
     "typescript": "^3.8.3",
     "vue": "^2.6.12",

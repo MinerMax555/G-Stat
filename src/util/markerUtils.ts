@@ -1,16 +1,16 @@
 import L from 'leaflet'
 
-const DEFAULT_MARKER_OPTIONS = {
+const DEFAULT_MARKER_OPTIONS: GStatMarkerOptions = {
   className: 'l-icon-material',
   icon: null,
   markerColor: '#FFFFFF',
   iconColor: '#000000',
   outlineColor: '#000000',
-  outlineWidth: '1'
+  outlineWidth: 1
 }
 
 const GstatMapMarkerIcon = L.Icon.extend({
-  initialize: function (options) {
+  initialize: function (options: GStatMarkerOptions) {
     this.options = L.Util.setOptions(this, options)
   },
 
@@ -52,11 +52,9 @@ const GstatMapMarkerIcon = L.Icon.extend({
   }
 })
 
-export default {
-  createIconClass: function (options) {
-    options = Object.assign(DEFAULT_MARKER_OPTIONS, options)
-    const ret = new GstatMapMarkerIcon()
-    ret.initialize(options)
-    return ret
-  }
+export function createIconClass (options: Partial<GStatMarkerOptions>) {
+  options = Object.assign(DEFAULT_MARKER_OPTIONS, options)
+  const ret = new GstatMapMarkerIcon()
+  ret.initialize(options)
+  return ret
 }

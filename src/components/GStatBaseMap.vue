@@ -44,8 +44,8 @@
 
 <script>
 import { LMap, LTileLayer } from 'vue2-leaflet'
-import GStatAreaLayer from '@/lib-components/GStatAreaLayer.vue'
-import GStatMarkerLayer from '@/lib-components/GStatMarkerLayer.vue'
+import GStatAreaLayer from '@/components/GStatAreaLayer.vue'
+import GStatMarkerLayer from '@/components/GStatMarkerLayer.vue'
 
 const OSM_TILES = '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 const OSM_ATTRIBUTION = '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors'
