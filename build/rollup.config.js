@@ -1,52 +1,54 @@
 // rollup.config.js
-import fs from 'fs';
-import path from 'path';
-import vue from 'rollup-plugin-vue';
-import alias from '@rollup/plugin-alias';
-import commonjs from '@rollup/plugin-commonjs';
-import { nodeResolve } from '@rollup/plugin-node-resolve';
-import replace from '@rollup/plugin-replace';
-import babel from 'rollup-plugin-babel';
-import { terser } from 'rollup-plugin-terser';
-import minimist from 'minimist';
+import fs from 'fs'
+import path from 'path'
+import vue from 'rollup-plugin-vue'
+import alias from '@rollup/plugin-alias'
+import commonjs from '@rollup/plugin-commonjs'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
+import replace from '@rollup/plugin-replace'
+import babel from 'rollup-plugin-babel'
+import { terser } from 'rollup-plugin-terser'
+import minimist from 'minimist'
+import typescript from '@rollup/plugin-typescript'
+import eslint from '@rbnlffl/rollup-plugin-eslint'
 
 // Get browserslist config and remove ie from es build targets
 const esbrowserslist = fs.readFileSync('./.browserslistrc')
   .toString()
   .split('\n')
-  .filter((entry) => entry && entry.substring(0, 2) !== 'ie');
+  .filter((entry) => entry && entry.substring(0, 2) !== 'ie')
 
-const argv = minimist(process.argv.slice(2));
+const argv = minimist(process.argv.slice(2))
 
-const projectRoot = path.resolve(__dirname, '..');
+const projectRoot = path.resolve(__dirname, '..')
 
 const baseConfig = {
-  input: 'src/entry.js',
+  input: 'src/entry.ts',
   plugins: {
     preVue: [
       alias({
         resolve: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
         entries: {
-          '@': path.resolve(projectRoot, 'src'),
-        },
-      }),
+          '@': path.resolve(projectRoot, 'src')
+        }
+      })
     ],
     replace: {
       'process.env.NODE_ENV': JSON.stringify('production'),
-      'process.env.ES_BUILD': JSON.stringify('false'),
+      'process.env.ES_BUILD': JSON.stringify('false')
     },
     vue: {
       css: true,
       template: {
-        isProduction: true,
-      },
+        isProduction: true
+      }
     },
     babel: {
       exclude: 'node_modules/**',
-      extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
-    },
-  },
-};
+      extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue']
+    }
+  }
+}
 
 // ESM/UMD/IIFE shared settings: externals
 // Refer to https://rollupjs.org/guide/en/#warning-treating-module-as-external-dependency
@@ -55,7 +57,7 @@ const external = [
   // eg. 'jquery'
   'vue',
   'leaflet'
-];
+]
 
 // UMD/IIFE shared settings: output.globals
 // Refer to https://rollupjs.org/guide/en#output-globals for details
@@ -64,23 +66,24 @@ const globals = {
   // eg. jquery: '$'
   vue: 'Vue',
   leaflet: 'L'
-};
+}
 
 // Customize configs for individual targets
-const buildFormats = [];
+const buildFormats = []
 if (!argv.format || argv.format === 'es') {
   const esConfig = {
     ...baseConfig,
     external,
     output: {
-      file: 'dist/gstat-map.esm.js',
+      dir: 'dist',
       format: 'esm',
       exports: 'named',
+      sourcemap: true
     },
     plugins: [
       replace({
         ...baseConfig.plugins.replace,
-        'process.env.ES_BUILD': JSON.stringify('true'),
+        'process.env.ES_BUILD': JSON.stringify('true')
       }),
       ...baseConfig.plugins.preVue,
       vue(baseConfig.plugins.vue),
@@ -90,16 +93,21 @@ if (!argv.format || argv.format === 'es') {
           [
             '@babel/preset-env',
             {
-              targets: esbrowserslist,
-            },
-          ],
-        ],
+              targets: esbrowserslist
+            }
+          ]
+        ]
       }),
       nodeResolve(),
+      typescript(),
       commonjs(),
-    ],
-  };
-  buildFormats.push(esConfig);
+      eslint({
+        throwOnError: false,
+        throwOnWarning: false
+      })
+    ]
+  }
+  buildFormats.push(esConfig)
 }
 
 if (!argv.format || argv.format === 'cjs') {
@@ -108,11 +116,11 @@ if (!argv.format || argv.format === 'cjs') {
     external,
     output: {
       compact: true,
-      file: 'dist/gstat-map.ssr.js',
+      dir: 'dist',
       format: 'cjs',
       name: 'GstatMap',
       exports: 'named',
-      globals,
+      globals
     },
     plugins: [
       replace(baseConfig.plugins.replace),
@@ -121,14 +129,15 @@ if (!argv.format || argv.format === 'cjs') {
         ...baseConfig.plugins.vue,
         template: {
           ...baseConfig.plugins.vue.template,
-          optimizeSSR: true,
-        },
+          optimizeSSR: true
+        }
       }),
       babel(baseConfig.plugins.babel),
-      commonjs(),
-    ],
-  };
-  buildFormats.push(umdConfig);
+      typescript(),
+      commonjs()
+    ]
+  }
+  buildFormats.push(umdConfig)
 }
 
 if (!argv.format || argv.format === 'iife') {
@@ -137,11 +146,11 @@ if (!argv.format || argv.format === 'iife') {
     external,
     output: {
       compact: true,
-      file: 'dist/gstat-map.min.js',
+      dir: 'dist',
       format: 'iife',
       name: 'GstatMap',
       exports: 'named',
-      globals,
+      globals
     },
     plugins: [
       replace(baseConfig.plugins.replace),
@@ -151,13 +160,13 @@ if (!argv.format || argv.format === 'iife') {
       commonjs(),
       terser({
         output: {
-          ecma: 5,
-        },
-      }),
-    ],
-  };
-  buildFormats.push(unpkgConfig);
+          ecma: 5
+        }
+      })
+    ]
+  }
+  buildFormats.push(unpkgConfig)
 }
 
 // Export config
-export default buildFormats;
+export default buildFormats

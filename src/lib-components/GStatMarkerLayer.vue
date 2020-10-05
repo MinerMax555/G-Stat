@@ -10,36 +10,34 @@
   </marker-cluster>
 </template>
 <script>
-import {LMarker} from 'vue2-leaflet'
-import Vue2LeafletMarkercluster from 'vue2-leaflet-markercluster';
+import { LMarker } from 'vue2-leaflet'
+import Vue2LeafletMarkercluster from 'vue2-leaflet-markercluster'
 import mapUtils from '@/markerUtils'
 export default {
-  name: "GStatMarkerLayer",
+  name: 'GStatMarkerLayer',
   components: {
     'l-marker': LMarker,
-    'marker-cluster': Vue2LeafletMarkercluster,
+    'marker-cluster': Vue2LeafletMarkercluster
   },
   props: {
-    data: {type: Array, required: true},
-    callbackData: {type: Object, required: false, default: null},
-    iconFunc: {type: Function, required: false, default: () => null},
-    iconColorFunc: {type: Function, required: true, default: () => '#000000'},
-    fillColorFunc: {type: Function, required: true, default: () => '#FFFFFF'},
+    data: { type: Array, required: true },
+    callbackData: { type: Object, required: false, default: null },
+    iconFunc: { type: Function, required: false, default: () => null },
+    iconColorFunc: { type: Function, required: true, default: () => '#000000' },
+    fillColorFunc: { type: Function, required: true, default: () => '#FFFFFF' }
   },
   computed: {
-    validPoints() {
-      return this.data.filter(x => (x.lat != null && x.lon != null))
+    validPoints () {
+      return this.data.filter(x => (x.lat !== null && x.lon !== null))
     }
   },
   methods: {
     getMarkerIcon: function (item) {
-      let icon = mapUtils.createIconClass({
+      return mapUtils.createIconClass({
         icon: this.iconFunc(item),
         iconColor: this.iconColorFunc(item),
         markerColor: this.fillColorFunc(item)
-      });
-      console.log(icon)
-      return icon;
+      })
     },
     onClick: function (marker) {
       this.$emit('click', marker.item)

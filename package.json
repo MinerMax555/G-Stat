@@ -2,48 +2,69 @@
   "name": "gstat-map",
   "version": "1.0.1",
   "description": "G-Stat is a vue-based library built around Vue2Leaflet, which can display reactive areas and markers on a Leaflet map",
-  "main": "dist/gstat-map.ssr.js",
-  "browser": "dist/gstat-map.esm.js",
-  "module": "dist/gstat-map.esm.js",
-  "unpkg": "dist/gstat-map.min.js",
-  "files": [
-    "dist/*",
-    "src/*"
-  ],
+  "main": "dist/entry.js",
   "scripts": {
-    "build": "cross-env NODE_ENV=production rollup --config build/rollup.config.js",
-    "build:ssr": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format cjs",
-    "build:es": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format es",
-    "build:unpkg": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format iife"
+    "build": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format es",
+    "lint": "vue-cli-service lint --no-fix"
   },
   "dependencies": {
+    "leaflet": "^1.7.1",
     "vue2-leaflet": "^2.5.2",
-    "vue2-leaflet-markercluster": "^3.1.0",
-    "leaflet": "^1.7.1"
+    "vue2-leaflet-markercluster": "^3.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
+    "@babel/preset-typescript": "^7.10.4",
+    "@rbnlffl/rollup-plugin-eslint": "^1.1.2",
     "@rollup/plugin-alias": "^3.1.1",
     "@rollup/plugin-commonjs": "^15.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@rollup/plugin-replace": "^2.3.3",
+    "@rollup/plugin-typescript": "^6.0.0",
     "@types/leaflet": "^1.5.17",
+    "@typescript-eslint/eslint-plugin": "^2.33.0",
+    "@typescript-eslint/parser": "^2.33.0",
     "@vue/cli-plugin-babel": "^4.3.1",
+    "@vue/cli-plugin-eslint": "^4.5.6",
+    "@vue/cli-plugin-typescript": "^4.3.1",
     "@vue/cli-service": "^4.3.1",
+    "@vue/eslint-config-standard": "^5.1.2",
+    "@vue/eslint-config-typescript": "^5.0.2",
     "cross-env": "^7.0.2",
+    "eslint": "^6.7.2",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-vue": "^6.2.2",
+    "lint-staged": "^9.5.0",
     "minimist": "^1.2.5",
     "rollup": "^2.28.2",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-vue": "^5.1.9",
+    "typescript": "^3.8.3",
     "vue": "^2.6.12",
     "vue-template-compiler": "^2.6.11"
   },
-  "peerDependencies": {
-    "vue": "^2.6.11"
-  },
   "engines": {
     "node": ">=10"
+  },
+  "files": [
+    "dist/*",
+    "src/*"
+  ],
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,vue,ts,tsx}": [
+      "vue-cli-service lint",
+      "git add"
+    ]
+  },
+  "peerDependencies": {
+    "vue": "^2.6.11"
   }
 }
