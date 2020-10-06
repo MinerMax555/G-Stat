@@ -10,13 +10,15 @@
   </marker-cluster>
 </template>
 <script lang="ts">
+import {
+  MarkerItem,
+  markerIconFuncType,
+  markerIconColorFuncType,
+  markerFillColorFuncType
+} from '@/types'
 import { LMarker } from 'vue2-leaflet'
 import { createIconClass } from '@/util/markerUtils.ts'
 import Vue, { PropType } from 'vue'
-
-type iconFuncType = (item: MarkerItem) => string;
-type iconColorFuncType = (item: MarkerItem) => string;
-type fillColorFuncType = (item: MarkerItem) => string;
 
 export default Vue.extend({
   name: 'GStatMarkerLayer',
@@ -27,9 +29,9 @@ export default Vue.extend({
   props: {
     data: { type: Array as PropType<Array<MarkerItem>>, required: true },
     callbackData: { type: Object, required: false, default: null },
-    iconFunc: { type: Function as PropType<iconFuncType>, required: false, default: () => null },
-    iconColorFunc: { type: Function as PropType<iconColorFuncType>, required: true, default: () => () => '#000000' },
-    fillColorFunc: { type: Function as PropType<fillColorFuncType>, required: true, default: () => () => '#FFFFFF' }
+    iconFunc: { type: Function as PropType<markerIconFuncType>, required: false, default: () => null },
+    iconColorFunc: { type: Function as PropType<markerIconColorFuncType>, required: true, default: () => () => '#000000' },
+    fillColorFunc: { type: Function as PropType<markerFillColorFuncType>, required: true, default: () => () => '#FFFFFF' }
   },
   computed: {
     validPoints (): Array<MarkerItem> {

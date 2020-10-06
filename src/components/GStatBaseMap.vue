@@ -42,15 +42,27 @@
   </l-map>
 </template>
 
-<script>
+<script lang="ts">
+import Vue, { PropType } from 'vue'
+import * as geojson from 'geojson'
+
 import { LMap, LTileLayer } from 'vue2-leaflet'
 import GStatAreaLayer from '@/components/GStatAreaLayer.vue'
 import GStatMarkerLayer from '@/components/GStatMarkerLayer.vue'
+import { LeafletEvent, LeafletMouseEvent } from 'leaflet'
+import {
+  areaBorderColorFunc,
+  areaBorderOpacityFunc,
+  areaBorderWidthFunc,
+  areaFillColorFunc,
+  areaTooltipFunc, markerFillColorFuncType, markerIconColorFuncType, markerIconFuncType,
+  MarkerItem
+} from '@/types'
 
 const OSM_TILES = '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 const OSM_ATTRIBUTION = '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 
-export default {
+export default Vue.extend({
   name: 'GStatBaseMap',
   components: {
     GStatMarkerLayer,
@@ -60,11 +72,11 @@ export default {
   },
   props: {
     // Data for Areas
-    areaGeoJson: { type: Array, required: false, default: null },
+    areaGeoJson: { type: Array as PropType<Array<geojson.Feature>>, required: false, default: null },
     areaData: { type: Object, required: false, default: null },
 
     // Data for Marker
-    markerData: { type: Array, required: false, default: null },
+    markerData: { type: Array as PropType<Array<MarkerItem>>, required: false, default: null },
 
     // Styling Map
     attribution: { type: String, required: false, default: OSM_ATTRIBUTION },
@@ -76,18 +88,18 @@ export default {
 
     // Styling Area
     animateAreaMouseHover: { type: Boolean, required: false, default: true },
-    areaBorderColorFunc: { type: Function, required: false, default: undefined },
-    areaBorderOpacityFunc: { type: Function, required: false, default: undefined },
-    areaBorderWidthFunc: { type: Function, required: false, default: undefined },
-    areaFillColorFunc: { type: Function, required: false, default: undefined },
-    areaFillOpacityFunc: { type: Function, required: false, default: undefined },
-    areaTooltipFunc: { type: Function, required: false, default: undefined },
+    areaBorderColorFunc: { type: Function as PropType<areaBorderColorFunc>, required: false, default: undefined },
+    areaBorderOpacityFunc: { type: Function as PropType<areaBorderOpacityFunc>, required: false, default: undefined },
+    areaBorderWidthFunc: { type: Function as PropType<areaBorderWidthFunc>, required: false, default: undefined },
+    areaFillColorFunc: { type: Function as PropType<areaFillColorFunc>, required: false, default: undefined },
+    areaFillOpacityFunc: { type: Function as PropType<areaFillColorFunc>, required: false, default: undefined },
+    areaTooltipFunc: { type: Function as PropType<areaTooltipFunc>, required: false, default: undefined },
     areaCallbackData: { type: Object, required: false, default: null },
 
     // Styling Marker
-    markerFillColorFunc: { type: Function, required: false, default: undefined },
-    markerIconFunc: { type: Function, required: false, default: undefined },
-    markerIconColorFunc: { type: Function, required: false, default: undefined },
+    markerFillColorFunc: { type: Function as PropType<markerFillColorFuncType>, required: false, default: undefined },
+    markerIconFunc: { type: Function as PropType<markerIconFuncType>, required: false, default: undefined },
+    markerIconColorFunc: { type: Function as PropType<markerIconColorFuncType>, required: false, default: undefined },
     markerCallbackData: { type: Object, required: false, default: null }
   },
   data () {
@@ -104,32 +116,32 @@ export default {
      * Leaflet has it's problems with being in certain components, a v-dialog, for example. this line makes sure
      * to re-render the leaflet map when the size of the g-stat-base-map component changes
      */
-    this.$refs.map.mapObject.invalidateSize(true)
+    (this.$refs.map as LMap).mapObject.invalidateSize(true)
   },
   methods: {
-    centerOn (target) {
-      this.$refs.map.fitBounds(target.getBounds())
+    centerOn (target: L.GeoJSON) {
+      (this.$refs.map as LMap).fitBounds(target.getBounds())
     },
-    onZoom (event) {
+    onZoom (event: LeafletEvent) {
       this.$emit('zoom', event)
     },
-    onMove (event) {
+    onMove (event: LeafletEvent) {
       this.$emit('move', event)
     },
-    onAreaMouseEnter (event) {
+    onAreaMouseEnter (event: LeafletMouseEvent) {
       this.$emit('area-mouse-enter', event)
     },
-    onAreaMouseLeave (event) {
+    onAreaMouseLeave (event: LeafletMouseEvent) {
       this.$emit('area-mouse-leave', event)
     },
-    onAreaClick (event) {
+    onAreaClick (event: LeafletMouseEvent) {
       this.$emit('area-click', event)
     },
-    onMarkerClick (event) {
+    onMarkerClick (event: LeafletMouseEvent) {
       this.$emit('marker-click', event)
     }
   }
-}
+})
 </script>
 
 <style>

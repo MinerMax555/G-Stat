@@ -6,51 +6,61 @@
   />
 </template>
 
-<script>
-import { SVG } from 'leaflet'
+<script lang="ts">
+import {
+  areaBorderColorFunc,
+  areaBorderOpacityFunc,
+  areaBorderWidthFunc,
+  areaFillColorFunc,
+  areaFillOpacityFunc,
+  areaTooltipFunc
+} from '@/types'
+import { Layer, LeafletMouseEvent, SVG } from 'leaflet'
 import { LGeoJson } from 'vue2-leaflet'
+import Vue, { PropType } from 'vue'
+import * as geojson from 'geojson'
 
-export default {
+export default Vue.extend({
   name: 'GStatAreaLayer',
   components: {
     LGeoJson
   },
   props: {
     // Data
-    geoJson: { type: Array, required: true },
-    geoData: { type: Object, required: true },
+    geoJson: { type: Array as PropType<Array<geojson.Feature>>, required: true },
+    geoData: { type: Object as PropType<Record<number, unknown>>, required: true },
     callbackData: { type: Object, required: false, default: null },
 
     // misc
-    renderer: { type: Object, default: () => new SVG({ padding: 0.35 }) },
+    renderer: { type: Object as PropType<SVG>, default: () => new SVG({ padding: 0.35 }) },
     refresh: { type: Number, required: false, default: 0 },
     mouseHoverAnimation: { type: Boolean, default: true },
 
-    borderOpacityFunc: { type: Function, default: () => 1 },
-    borderColorFunc: { type: Function, default: () => '#000000' },
-    borderWidthFunc: { type: Function, default: () => 1 },
-    fillOpacityFunc: { type: Function, default: () => 0.75 },
-    fillColorFunc: { type: Function, default: () => '#FFFFFF' },
-    tooltipFunc: { type: Function, default: () => null }
+    borderOpacityFunc: { type: Function as PropType<areaBorderOpacityFunc>, default: () => () => 1 },
+    borderColorFunc: { type: Function as PropType<areaBorderColorFunc>, default: () => () => '#000000' },
+    borderWidthFunc: { type: Function as PropType<areaBorderWidthFunc>, default: () => () => 1 },
+    fillOpacityFunc: { type: Function as PropType<areaFillOpacityFunc>, default: () => () => 0.75 },
+    fillColorFunc: { type: Function as PropType<areaFillColorFunc>, default: () => () => '#FFFFFF' },
+    tooltipFunc: { type: Function as PropType<areaTooltipFunc>, default: () => () => null }
   },
   computed: {
     geoOptions: function () {
       return {
-        style: feature => {
+        style: (feature: geojson.Feature) => {
           const geoID = Number(feature.id)
           const data = this.geoData[geoID]
 
           const fillColor = this.fillColorFunc(feature, data, this.callbackData)
           return {
             renderer: this.renderer,
-            color: this.borderColorFunc(feature, data, fillColor),
+            color: this.borderColorFunc(feature, data, fillColor, this.callbackData),
             opacity: this.borderOpacityFunc(feature, data, this.callbackData),
-            weight: this.borderWidthFunc(feature, data),
+            weight: this.borderWidthFunc(feature, data, this.callbackData),
             fillColor: fillColor,
             fillOpacity: this.fillOpacityFunc(feature, data, this.callbackData)
           }
         },
-        onEachFeature: (feature, layer) => {
+        onEachFeature: (feature: geojson.Feature, layer: Layer): void => {
           layer.on({
             mouseover: this.onMouseEnter.bind(this),
             mouseout: this.onMouseLeave.bind(this),
@@ -59,7 +69,7 @@ export default {
           const geoID = Number(feature.id)
           const data = this.geoData[geoID]
 
-          const tooltip = this.tooltipFunc(feature, data, this.callbackData)
+          const tooltip = this.tooltipFunc.bind(this)(feature, data, this.callbackData)
           // only set tooltip if function returns something
           if (tooltip) {
             layer.bindTooltip(tooltip)
@@ -81,9 +91,9 @@ export default {
   },
   methods: {
     refreshStyle () {
-      this.$refs.geolayer.setOptions(this.geoOptions)
+      (this.$refs.geolayer as LGeoJson).setOptions(this.geoOptions)
     },
-    onMouseEnter (event) {
+    onMouseEnter (event: LeafletMouseEvent) {
       if (this.mouseHoverAnimation) {
         const target = event.target
         const data = this.geoData[target.feature.id]
@@ -94,7 +104,7 @@ export default {
       }
       this.$emit('mouse-enter', event)
     },
-    onMouseLeave (event) {
+    onMouseLeave (event: LeafletMouseEvent) {
       if (this.mouseHoverAnimation) {
         const target = event.target
         const data = this.geoData[target.feature.id]
@@ -104,11 +114,11 @@ export default {
       }
       this.$emit('mouse-leave', event)
     },
-    onMouseClick (event) {
+    onMouseClick (event: LeafletMouseEvent) {
       this.$emit('click', event)
     }
   }
-}
+})
 </script>
 
 <style scoped>

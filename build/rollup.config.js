@@ -1,6 +1,7 @@
+import eslint from '@rbnlffl/rollup-plugin-eslint'
+import alias from '@rollup/plugin-alias'
 import vue from 'rollup-plugin-vue'
 import typescript from 'rollup-plugin-typescript2'
-import alias from '@rollup/plugin-alias'
 import path from 'path'
 import nodeResolve from '@rollup/plugin-node-resolve'
 
@@ -23,6 +24,10 @@ export default {
     }),
     nodeResolve(),
     typescript(),
-    vue()
+    vue(),
+    eslint({
+      throwOnWarning: true,
+      throwOnError: true
+    })
   ]
 }
