@@ -15,7 +15,7 @@ import {
   markerIconFuncType,
   markerIconColorFuncType,
   markerFillColorFuncType
-} from '@/types'
+} from '../types'
 import { LMarker } from 'vue2-leaflet'
 import { createIconClass } from '@/util/markerUtils.ts'
 import Vue, { PropType } from 'vue'

@@ -1,10 +1,9 @@
-import eslint from '@rbnlffl/rollup-plugin-eslint'
-import alias from '@rollup/plugin-alias'
-import vue from 'rollup-plugin-vue'
-import typescript from 'rollup-plugin-typescript2'
 import path from 'path'
+import alias from '@rollup/plugin-alias'
 import nodeResolve from '@rollup/plugin-node-resolve'
-
+import typescript from 'rollup-plugin-typescript2'
+import vue from 'rollup-plugin-vue'
+import eslint from '@rbnlffl/rollup-plugin-eslint'
 const projectRoot = path.resolve(__dirname, '..')
 
 export default {

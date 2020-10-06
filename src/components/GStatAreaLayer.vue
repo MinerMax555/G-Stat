@@ -14,7 +14,7 @@ import {
   areaFillColorFunc,
   areaFillOpacityFunc,
   areaTooltipFunc
-} from '@/types'
+} from '../types'
 import { Layer, LeafletMouseEvent, SVG } from 'leaflet'
 import { LGeoJson } from 'vue2-leaflet'
 import Vue, { PropType } from 'vue'

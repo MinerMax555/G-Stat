@@ -57,7 +57,7 @@ import {
   areaFillColorFunc,
   areaTooltipFunc, markerFillColorFuncType, markerIconColorFuncType, markerIconFuncType,
   MarkerItem
-} from '@/types'
+} from '../types'
 
 const OSM_TILES = '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 const OSM_ATTRIBUTION = '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors'
