@@ -30,8 +30,8 @@ export default Vue.extend({
     data: { type: Array as PropType<Array<MarkerItem>>, required: true },
     callbackData: { type: Object, required: false, default: null },
     iconFunc: { type: Function as PropType<markerIconFuncType>, required: false, default: () => null },
-    iconColorFunc: { type: Function as PropType<markerIconColorFuncType>, required: true, default: () => () => '#000000' },
-    fillColorFunc: { type: Function as PropType<markerFillColorFuncType>, required: true, default: () => () => '#FFFFFF' }
+    iconColorFunc: { type: Function as PropType<markerIconColorFuncType|string>, required: true, default: () => '#000000' },
+    fillColorFunc: { type: Function as PropType<markerFillColorFuncType|string>, required: true, default: () => '#FFFFFF' }
   },
   computed: {
     validPoints (): Array<MarkerItem> {
@@ -42,8 +42,8 @@ export default Vue.extend({
     getMarkerIcon: function (item: MarkerItem) {
       return createIconClass({
         icon: this.iconFunc(item),
-        iconColor: this.iconColorFunc(item),
-        markerColor: this.fillColorFunc(item)
+        iconColor: typeof this.iconColorFunc === 'string' ? this.iconColorFunc : this.iconColorFunc(item),
+        markerColor: typeof this.fillColorFunc === 'string' ? this.fillColorFunc : this.fillColorFunc(item)
       })
     },
     onClick: function (item: MarkerItem): void {
