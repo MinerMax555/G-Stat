@@ -28,7 +28,7 @@ export default Vue.extend({
   props: {
     // Data
     geoJson: { type: Array as PropType<Array<geojson.Feature>>, required: true },
-    geoData: { type: Object as PropType<Record<number, unknown>>, required: true },
+    geoData: { type: [Array, Object] as PropType<Array<unknown>|Record<number, unknown>>, required: true },
     callbackData: { type: Object, required: false, default: null },
 
     // misc
