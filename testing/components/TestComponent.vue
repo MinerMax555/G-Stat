@@ -1,10 +1,10 @@
 <template>
-  <g-stat-base-map />
+  <g-stat-base-map :map-options="{gestureHandling: true}" />
 </template>
 <script>
-import GStatBaseMap from "@/lib-components/GStatBaseMap";
+import GStatBaseMap from '../../src/components/GStatBaseMap.vue'
 export default {
   name: 'TestComponent',
-  components: {GStatBaseMap}
+  components: { GStatBaseMap }
 }
 </script>

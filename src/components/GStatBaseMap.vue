@@ -4,6 +4,7 @@
     style="height: 100%; z-index: 0"
     :zoom="zoom"
     :center="center"
+    :options="Object.assign(defaultMapOptions, mapOptions)"
     @update:zoom="onZoom"
     @move="onMove"
   >
@@ -47,9 +48,10 @@ import Vue, { PropType } from 'vue'
 import * as geojson from 'geojson'
 
 import { LMap, LTileLayer } from 'vue2-leaflet'
+import { GestureHandling } from 'leaflet-gesture-handling'
 import GStatAreaLayer from '@/components/GStatAreaLayer.vue'
 import GStatMarkerLayer from '@/components/GStatMarkerLayer.vue'
-import { LeafletEvent, LeafletMouseEvent } from 'leaflet'
+import { LeafletEvent, LeafletMouseEvent, Map, MapOptions } from 'leaflet'
 import {
   areaBorderColorFunc,
   areaBorderOpacityFunc,
@@ -59,6 +61,14 @@ import {
   MarkerItem
 } from '../types'
 
+Map.addInitHook('addHandler', 'gestureHandling', GestureHandling)
+
+const defaultMapOptions = {
+  zoomSnap: 0.25,
+  zoomDelta: 0.5,
+  wheelPxPerZoomLevel: 120,
+  gestureHandling: false
+}
 const OSM_TILES = '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 
 export default Vue.extend({
@@ -72,13 +82,18 @@ export default Vue.extend({
   props: {
     // Data for Areas
     areaGeoJson: { type: Array as PropType<Array<geojson.Feature>>, required: false, default: null },
-    areaData: { type: [Object, Array] as PropType<Array<unknown>|unknown>, required: false, default: null },
+    areaData: { type: [Object, Array] as PropType<Array<unknown> | unknown>, required: false, default: null },
 
     // Data for Marker
     markerData: { type: Array as PropType<Array<MarkerItem>>, required: false, default: null },
 
     // Styling Map
-    attribution: { type: String, required: false, default: '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors' },
+    mapOptions: { type: Object as PropType<MapOptions>, required: false, default: () => defaultMapOptions },
+    attribution: {
+      type: String,
+      required: false,
+      default: '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    },
     tilesVisible: { type: Boolean, required: false, default: true },
     tilesUrl: { type: String, required: false, default: OSM_TILES },
     zoom: { type: Number, required: false, default: 10 },
@@ -103,7 +118,8 @@ export default Vue.extend({
   },
   data () {
     return {
-      center: this.defaultCenter
+      center: this.defaultCenter,
+      defaultMapOptions: defaultMapOptions
     }
   },
   mounted () {
