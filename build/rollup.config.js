@@ -4,6 +4,7 @@ import nodeResolve from '@rollup/plugin-node-resolve'
 import typescript from 'rollup-plugin-typescript2'
 import vue from 'rollup-plugin-vue'
 import eslint from '@rbnlffl/rollup-plugin-eslint'
+import commonjs from '@rollup/plugin-commonjs'
 const projectRoot = path.resolve(__dirname, '..')
 
 export default {
@@ -22,6 +23,7 @@ export default {
       }
     }),
     nodeResolve(),
+    commonjs(),
     typescript(),
     vue(),
     eslint({
