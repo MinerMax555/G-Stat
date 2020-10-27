@@ -53,7 +53,7 @@ const GstatMapMarkerIcon = L.Icon.extend({
   }
 })
 
-export function createIconClass (options: Partial<GStatMarkerOptions>) {
+export function createIconClass (options: Partial<GStatMarkerOptions>) : L.Icon {
   options = Object.assign(DEFAULT_MARKER_OPTIONS, options)
   const ret = new GstatMapMarkerIcon()
   ret.initialize(options)
