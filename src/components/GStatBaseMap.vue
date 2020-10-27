@@ -10,7 +10,7 @@
   >
     <l-tile-layer
       v-if="tilesVisible"
-      :url="'https://{s}.tile.osm.org/{z}/{x}/{y}.png'"
+      :url="tilesUrl"
       :attribution="attribution"
     />
     <g-stat-area-layer
@@ -69,7 +69,6 @@ const defaultMapOptions = {
   wheelPxPerZoomLevel: 120,
   gestureHandling: false
 }
-const OSM_TILES = '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 
 export default Vue.extend({
   name: 'GStatBaseMap',
@@ -95,7 +94,7 @@ export default Vue.extend({
       default: '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     },
     tilesVisible: { type: Boolean, required: false, default: true },
-    tilesUrl: { type: String, required: false, default: OSM_TILES },
+    tilesUrl: { type: String, required: false, default: 'https://{s}.tile.osm.org/{z}/{x}/{y}.png' },
     zoom: { type: Number, required: false, default: 10 },
     defaultCenter: { type: Array, required: false, default: (): number[] => [46.575855, 11.374969] },
     refresh: { type: Number, required: false, default: 0 },
