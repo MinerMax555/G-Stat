@@ -24,7 +24,7 @@ export default Vue.extend({
   name: 'GStatMarkerLayer',
   components: {
     'l-marker': LMarker,
-    'marker-cluster': () => import('vue2-leaflet-markercluster')
+    'marker-cluster': () => import('@/components/GstatMarkercluster.vue')
   },
   props: {
     data: { type: Array as PropType<Array<MarkerItem>>, required: true },

@@ -27,7 +27,7 @@ export default {
     typescript(),
     vue(),
     eslint({
-      throwOnWarning: true,
+      throwOnWarning: false,
       throwOnError: true
     })
   ]

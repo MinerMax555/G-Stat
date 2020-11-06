@@ -2,6 +2,11 @@
   "name": "gstat-map",
   "version": "1.2.1",
   "description": "G-Stat is a vue-based library built around Vue2Leaflet, which can display reactive areas and markers on a Leaflet map",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MinerMax555/G-Stat"
+  },
+  "license": "MIT",
   "main": "dist/index.js",
   "scripts": {
     "serve": "vue-cli-service serve testing/main.js",
@@ -11,9 +16,9 @@
   "dependencies": {
     "@rollup/plugin-commonjs": "^16.0.0",
     "leaflet": "^1.7.1",
+    "leaflet.markercluster": "^1.4.1",
     "leaflet-gesture-handling": "^1.2.1",
-    "vue2-leaflet": "^2.6.0",
-    "vue2-leaflet-markercluster": "^3.1.0"
+    "vue2-leaflet": "^2.6.0"
   },
   "devDependencies": {
     "@betit/rollup-plugin-rename-extensions": "^0.1.0",
@@ -22,8 +27,8 @@
     "@rollup/plugin-node-resolve": "^10.0.0",
     "@rollup/plugin-typescript": "^6.1.0",
     "@types/leaflet": "^1.5.19",
-    "@typescript-eslint/eslint-plugin": "^4.6.0",
-    "@typescript-eslint/parser": "^4.6.0",
+    "@typescript-eslint/eslint-plugin": "^4.6.1",
+    "@typescript-eslint/parser": "^4.6.1",
     "@vue/cli-plugin-eslint": "^4.5.8",
     "@vue/cli-plugin-typescript": "^4.5.8",
     "@vue/cli-service": "^4.5.8",
@@ -36,10 +41,10 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.2",
     "eslint-plugin-vue": "^7.1.0",
-    "lint-staged": "^10.5.0",
+    "lint-staged": "^10.5.1",
     "minimist": "^1.2.5",
-    "rollup": "^2.32.1",
-    "rollup-plugin-typescript2": "^0.28.0",
+    "rollup": "^2.33.1",
+    "rollup-plugin-typescript2": "^0.29.0",
     "rollup-plugin-vue": "^5.1.9",
     "typescript": "^4.0.5",
     "vue": "^2.6.12",
