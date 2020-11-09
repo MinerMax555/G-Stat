@@ -3,7 +3,25 @@
     :attribution="'HERE COMES TEXT!'"
     :map-options="{gestureHandling: true}"
     :marker-data="markerData"
-  />
+  >
+    <template #legend>
+      <div style="background: white">
+        <h4>Styling: xyz</h4>
+        <div style="border-left: 12px solid gray">
+          0
+        </div>
+        <div style="border-left: 12px solid yellow">
+          25
+        </div>
+        <div style="border-left: 12px solid orange">
+          50
+        </div>
+        <div style="border-left: 12px solid red">
+          100
+        </div>
+      </div>
+    </template>
+  </g-stat-base-map>
 </template>
 <script lang="ts">
 import GStatBaseMap from '../../src/components/GStatBaseMap.vue'

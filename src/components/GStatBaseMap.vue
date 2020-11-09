@@ -8,6 +8,10 @@
     @update:zoom="onZoom"
     @move="onMove"
   >
+    <l-control :position="legendPosition">
+      <slot name="legend" />
+    </l-control>
+    <slot />
     <l-tile-layer
       v-if="tilesVisible"
       :url="tilesUrl"
@@ -47,7 +51,7 @@
 import Vue, { PropType } from 'vue'
 import * as geojson from 'geojson'
 
-import { LMap, LTileLayer } from 'vue2-leaflet'
+import { LMap, LTileLayer, LControl } from 'vue2-leaflet'
 import * as GestureHandling from 'leaflet-gesture-handling'
 import { FeatureGroup, LeafletEvent, LeafletMouseEvent, Map, MapOptions } from 'leaflet'
 import GStatAreaLayer from '@/components/GStatAreaLayer.vue'
@@ -76,7 +80,8 @@ export default Vue.extend({
     GStatMarkerLayer,
     GStatAreaLayer,
     LMap,
-    LTileLayer
+    LTileLayer,
+    LControl
   },
   props: {
     // Data for Areas
@@ -93,6 +98,7 @@ export default Vue.extend({
       required: false,
       default: '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     },
+    legendPosition: { type: String, required: false, default: 'topright' },
     tilesVisible: { type: Boolean, required: false, default: true },
     tilesUrl: { type: String, required: false, default: 'https://{s}.tile.osm.org/{z}/{x}/{y}.png' },
     zoom: { type: Number, required: false, default: 10 },
