@@ -52,7 +52,7 @@ import Vue, { PropType } from 'vue'
 import * as geojson from 'geojson'
 
 import { LMap, LTileLayer, LControl } from 'vue2-leaflet'
-import * as GestureHandling from 'leaflet-gesture-handling'
+import { GestureHandling } from '@gstat/leaflet-gesture-handling'
 import { FeatureGroup, LeafletEvent, LeafletMouseEvent, Map, MapOptions } from 'leaflet'
 import GStatAreaLayer from '@/components/GStatAreaLayer.vue'
 import GStatMarkerLayer from '@/components/GStatMarkerLayer.vue'
@@ -65,7 +65,7 @@ import {
   MarkerItem
 } from '../types'
 
-Map.addInitHook('addHandler', 'gestureHandling', GestureHandling.GestureHandling)
+Map.addInitHook('addHandler', 'gestureHandling', GestureHandling)
 
 const defaultMapOptions = {
   zoomSnap: 0.25,

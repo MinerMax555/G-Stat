@@ -17,5 +17,5 @@ export default {
 
 <style type="text/css">
   @import "../node_modules/leaflet/dist/leaflet.css";
-  @import "../node_modules/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css";
+  @import "../node_modules/@gstat/leaflet-gesture-handling/dist/leaflet-gesture-handling.min.css";
 </style>

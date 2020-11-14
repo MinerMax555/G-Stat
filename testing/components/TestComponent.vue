@@ -1,8 +1,16 @@
 <template>
   <g-stat-base-map
+    v-if="geoJson"
     :attribution="'HERE COMES TEXT!'"
     :map-options="{gestureHandling: true}"
-    :marker-data="markerData"
+    :area-data="[]"
+    :area-geo-json="geoJson"
+    :area-tooltip-func="() => 'Tooltip'"
+    :area-border-color-func="() => 'red'"
+    :area-fill-color-func="() => 'orange'"
+    :area-fill-opacity-func="() => 1"
+    :area-border-opacity-func="() => 1"
+    :area-border-width-func="() => 1"
   >
     <template #legend>
       <div style="background: white">
@@ -25,31 +33,21 @@
 </template>
 <script lang="ts">
 import GStatBaseMap from '../../src/components/GStatBaseMap.vue'
+import Vue from 'vue'
+import axios from 'axios'
 
-export default {
+export default Vue.extend({
   name: 'TestComponent',
   components: { GStatBaseMap },
   data () {
     return {
-      geoJson: null,
-      markerData: [
-        {
-          id: 1,
-          lat: 40,
-          lon: 40
-        },
-        {
-          id: 2,
-          lat: 40.1,
-          lon: 40
-        },
-        {
-          id: 3,
-          lat: 40.2,
-          lon: 40
-        }
-      ]
+      geoJson: null
     }
+  },
+  async mounted () {
+    const geo = (await axios.get('https://corona.gstat.eu/api/v1/adminarea/?adminLevel=2')).data
+    geo.forEach((f: any) => { f.type = 'Feature' })
+    this.geoJson = geo
   }
-}
+})
 </script>
