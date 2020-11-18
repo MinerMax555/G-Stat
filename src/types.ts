@@ -25,3 +25,7 @@ export declare type areaBorderWidthFunc = (feature: geojson.Feature, data: unkno
 export declare type areaFillOpacityFunc = (feature: geojson.Feature, data: unknown, callbackData?: Record<string, unknown>) => number;
 export declare type areaFillColorFunc = (feature: geojson.Feature, data: unknown, callbackData?: Record<string, unknown>) => string;
 export declare type areaTooltipFunc = (feature: geojson.Feature, data: unknown, callbackData?: Record<string, unknown>) => string;
+
+export declare class GStatMarkercluster {
+
+}

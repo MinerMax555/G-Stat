@@ -19,6 +19,7 @@
     />
     <g-stat-area-layer
       v-if="areaGeoJson && areaData"
+      ref="arealayer"
       :geo-json="areaGeoJson"
       :geo-data="areaData"
       :callback-data="areaCallbackData"
@@ -36,6 +37,7 @@
     />
     <g-stat-marker-layer
       v-if="markerData && markerData.length > 0"
+      ref="markerlayer"
       :data="markerData"
       :refresh="refresh"
       :callback-data="markerCallbackData"
@@ -53,7 +55,7 @@ import * as geojson from 'geojson'
 
 import { LMap, LTileLayer, LControl } from 'vue2-leaflet'
 import { GestureHandling } from '@gstat/leaflet-gesture-handling'
-import { FeatureGroup, LeafletEvent, LeafletMouseEvent, Map, MapOptions } from 'leaflet'
+import { FeatureGroup, LatLngBounds, LeafletEvent, LeafletMouseEvent, Map, MapOptions } from 'leaflet'
 import GStatAreaLayer from '@/components/GStatAreaLayer.vue'
 import GStatMarkerLayer from '@/components/GStatMarkerLayer.vue'
 import {
@@ -139,8 +141,20 @@ export default Vue.extend({
     (this.$refs.map as LMap).mapObject.invalidateSize(true)
   },
   methods: {
-    centerOn (target: FeatureGroup) {
+    centerOn (target: { getBounds(): LatLngBounds }) {
       (this.$refs.map as LMap).fitBounds(target.getBounds())
+    },
+    centerOnAreaLayer () {
+      this.centerOn(this.getLeafletAreaLayer())
+    },
+    centerOnMarkerLayer () {
+      this.centerOn(this.getLeafletMarkerLayer())
+    },
+    getLeafletAreaLayer () : FeatureGroup {
+      return (this.$refs.arealayer as any).getLayer()
+    },
+    getLeafletMarkerLayer () : FeatureGroup {
+      return (this.$refs.markerlayer as any).getLayer()
     },
     onZoom (event: LeafletEvent) {
       this.$emit('zoom', event)

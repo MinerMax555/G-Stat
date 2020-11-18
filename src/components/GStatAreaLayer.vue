@@ -93,6 +93,9 @@ export default Vue.extend({
     refreshStyle () {
       (this.$refs.geolayer as LGeoJson).setOptions(this.geoOptions)
     },
+    getLayer () : LGeoJson {
+      return (this.$refs.geolayer as LGeoJson)
+    },
     onMouseEnter (event: LeafletMouseEvent) {
       if (this.mouseHoverAnimation) {
         const target = event.target
