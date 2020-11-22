@@ -15,13 +15,14 @@
     <l-tile-layer
       v-if="tilesVisible"
       :url="tilesUrl"
-      :attribution="attribution"
+      :attribution="attributionTiles"
     />
     <g-stat-area-layer
       v-if="areaGeoJson && areaData"
       ref="arealayer"
       :geo-json="areaGeoJson"
       :geo-data="areaData"
+      :attribution="attributionAreaData"
       :callback-data="areaCallbackData"
       :refresh="refresh"
       :mouse-hover-animation="animateAreaMouseHover"
@@ -39,6 +40,7 @@
       v-if="markerData && markerData.length > 0"
       ref="markerlayer"
       :data="markerData"
+      :attribution="attributionMarkerData"
       :refresh="refresh"
       :callback-data="markerCallbackData"
       :fill-color-func="markerFillColorFunc"
@@ -95,10 +97,15 @@ export default Vue.extend({
 
     // Styling Map
     mapOptions: { type: Object as PropType<MapOptions>, required: false, default: () => defaultMapOptions },
-    attribution: {
+    attributionTiles: {
       type: String,
       required: false,
       default: '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    },
+    attributionAreaData: {
+      type: String,
+      required: false,
+      default: null
     },
     legendPosition: { type: String, required: false, default: 'topright' },
     tilesVisible: { type: Boolean, required: false, default: true },

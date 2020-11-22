@@ -1,6 +1,7 @@
 <template>
   <l-geo-json
     ref="geolayer"
+    :attribution="attribution"
     :geojson="geoJson"
     :options="geoOptions"
   />
@@ -35,6 +36,7 @@ export default Vue.extend({
     renderer: { type: Object as PropType<SVG>, default: () => new SVG({ padding: 0.35 }) },
     refresh: { type: Number, required: false, default: 0 },
     mouseHoverAnimation: { type: Boolean, default: true },
+    attribution: { type: String, default: null },
 
     borderOpacityFunc: { type: Function as PropType<areaBorderOpacityFunc>, default: () => () => 1 },
     borderColorFunc: { type: Function as PropType<areaBorderColorFunc>, default: () => () => '#000000' },

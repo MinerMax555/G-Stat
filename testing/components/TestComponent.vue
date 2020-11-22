@@ -2,7 +2,7 @@
   <div style="height: 100%">
     <g-stat-base-map
       ref="map"
-      :attribution="'HERE COMES TEXT!'"
+      :attribution-area-data="'Area attribution'"
       :map-options="{gestureHandling: true}"
       :marker-data="markerData"
       :area-data="[]"
@@ -75,7 +75,7 @@ export default Vue.extend({
     }
   },
   async mounted () {
-    const geo = (await axios.get('https://corona.gstat.eu/api/v1/adminarea/?adminLevel=2')).data
+    const geo = (await axios.get('https://gstat.eu/api/v1/adminarea/?adminLevel=2')).data
     geo.forEach((f: any) => {
       f.type = 'Feature'
     })
