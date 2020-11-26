@@ -13,6 +13,7 @@
       :area-fill-opacity-func="() => 1"
       :area-border-opacity-func="() => 1"
       :area-border-width-func="() => 1"
+      @marker-layer-ready="onMarkerLayerReady"
     >
       <template #legend>
         <div style="background: white">
@@ -55,23 +56,7 @@ export default Vue.extend({
   data () {
     return {
       geoJson: null,
-      markerData: [
-        {
-          id: 1,
-          lat: 40,
-          lon: 40
-        },
-        {
-          id: 2,
-          lat: 40.1,
-          lon: 40
-        },
-        {
-          id: 3,
-          lat: 40.2,
-          lon: 40
-        }
-      ]
+      markerData: [] as any[]
     }
   },
   async mounted () {
@@ -80,6 +65,28 @@ export default Vue.extend({
       f.type = 'Feature'
     })
     this.geoJson = geo
+    this.markerData = [
+      {
+        id: 1,
+        lat: 40,
+        lon: 40
+      },
+      {
+        id: 2,
+        lat: 40.1,
+        lon: 40
+      },
+      {
+        id: 3,
+        lat: 40.2,
+        lon: 40
+      }
+    ]
+  },
+  methods: {
+    onMarkerLayerReady: function () {
+      console.log('Ready!')
+    }
   }
 })
 </script>

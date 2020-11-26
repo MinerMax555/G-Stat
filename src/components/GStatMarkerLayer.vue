@@ -2,6 +2,7 @@
   <marker-cluster
     ref="clusterlayer"
     :options="{maxClusterRadius: 50}"
+    @ready="$emit('ready')"
   >
     <l-marker
       v-for="marker of validPoints"

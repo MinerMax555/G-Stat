@@ -40,12 +40,12 @@
       v-if="markerData && markerData.length > 0"
       ref="markerlayer"
       :data="markerData"
-      :attribution="attributionMarkerData"
       :refresh="refresh"
       :callback-data="markerCallbackData"
       :fill-color-func="markerFillColorFunc"
       :icon-func="markerIconFunc"
       :icon-color-func="markerIconColorFunc"
+      @ready="$emit('marker-layer-ready')"
       @click="onMarkerClick"
     />
   </l-map>
