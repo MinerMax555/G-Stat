@@ -13,7 +13,7 @@
       :area-fill-opacity-func="() => 1"
       :area-border-opacity-func="() => 1"
       :area-border-width-func="() => 1"
-      @marker-layer-ready="onMarkerLayerReady"
+      @marker-move="onMarkerMove"
     >
       <template #legend>
         <div style="background: white">
@@ -50,6 +50,7 @@ import GStatBaseMap from '../../src/components/GStatBaseMap.vue'
 import Vue from 'vue'
 import axios from 'axios'
 import { MarkerItem } from '@/types'
+import { LatLng } from 'leaflet'
 
 export default Vue.extend({
   name: 'TestComponent',
@@ -88,8 +89,9 @@ export default Vue.extend({
     ]
   },
   methods: {
-    onMarkerLayerReady: function () {
-      console.log('Ready!')
+    onMarkerMove: function (event: {marker: MarkerItem, newPosition: LatLng}) {
+      event.marker.lat = event.newPosition.lat
+      event.marker.lon = event.newPosition.lng
     }
   }
 })

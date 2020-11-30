@@ -11,6 +11,7 @@
       :draggable="marker.draggable"
       :icon="getMarkerIcon(marker)"
       @click="onClick(marker)"
+      @update:latLng="onPositionUpdate(marker, $event)"
     />
   </marker-cluster>
 </template>
@@ -25,7 +26,7 @@ import {
 import { LMarker } from 'vue2-leaflet'
 import { createIconClass } from '@/util/markerUtils.ts'
 import Vue, { PropType } from 'vue'
-import { FeatureGroup } from 'leaflet'
+import { FeatureGroup, LatLng } from 'leaflet'
 
 export default Vue.extend({
   name: 'GStatMarkerLayer',
@@ -65,6 +66,9 @@ export default Vue.extend({
     },
     onClick: function (item: MarkerItem): void {
       this.$emit('click', item)
+    },
+    onPositionUpdate: function (marker: MarkerItem, latLng: LatLng): void {
+      this.$emit('marker-move', { marker: marker, newPosition: latLng })
     }
   }
 })

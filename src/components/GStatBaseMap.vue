@@ -47,6 +47,7 @@
       :icon-color-func="markerIconColorFunc"
       @ready="$emit('marker-layer-ready')"
       @click="onMarkerClick"
+      @marker-move="onMarkerMove"
     />
   </l-map>
 </template>
@@ -57,7 +58,7 @@ import * as geojson from 'geojson'
 
 import { LMap, LTileLayer, LControl } from 'vue2-leaflet'
 import { GestureHandling } from '@gstat/leaflet-gesture-handling'
-import { FeatureGroup, LatLngBounds, LeafletMouseEvent, Map, MapOptions } from 'leaflet'
+import { FeatureGroup, LatLng, LatLngBounds, LeafletMouseEvent, Map, MapOptions } from 'leaflet'
 import GStatAreaLayer from '@/components/GStatAreaLayer.vue'
 import GStatMarkerLayer from '@/components/GStatMarkerLayer.vue'
 import {
@@ -173,6 +174,9 @@ export default Vue.extend({
     },
     onMarkerClick (event: LeafletMouseEvent) {
       this.$emit('marker-click', event)
+    },
+    onMarkerMove (event: {marker: MarkerItem, newPosition: LatLng}) {
+      this.$emit('marker-move', event)
     }
   }
 })
