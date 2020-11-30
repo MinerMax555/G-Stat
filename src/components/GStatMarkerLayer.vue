@@ -8,6 +8,7 @@
       v-for="marker of validPoints"
       :key="marker.id"
       :lat-lng="[marker.lat, marker.lon]"
+      :draggable="marker.draggable"
       :icon="getMarkerIcon(marker)"
       @click="onClick(marker)"
     />
@@ -16,9 +17,10 @@
 <script lang="ts">
 import {
   MarkerItem,
-  markerIconFuncType,
-  markerIconColorFuncType,
-  markerFillColorFuncType
+  MarkerDraggableFuncType,
+  MarkerIconFuncType,
+  MarkerIconColorFuncType,
+  MarkerFillColorFuncType
 } from '../types'
 import { LMarker } from 'vue2-leaflet'
 import { createIconClass } from '@/util/markerUtils.ts'
@@ -34,21 +36,28 @@ export default Vue.extend({
   props: {
     data: { type: Array as PropType<Array<MarkerItem>>, required: true },
     callbackData: { type: Object, required: false, default: null },
-    iconFunc: { type: Function as PropType<markerIconFuncType>, required: false, default: () => null },
-    iconColorFunc: { type: Function as PropType<markerIconColorFuncType|string>, required: true, default: () => '#000000' },
-    fillColorFunc: { type: Function as PropType<markerFillColorFuncType|string>, required: true, default: () => '#FFFFFF' }
+    markerDraggableFunc: { type: [Boolean, Function] as PropType<boolean|MarkerDraggableFuncType>, required: false, default: false },
+    iconFunc: { type: Function as PropType<MarkerIconFuncType>, required: false, default: () => null },
+    iconColorFunc: { type: Function as PropType<MarkerIconColorFuncType|string>, required: true, default: () => '#000000' },
+    fillColorFunc: { type: Function as PropType<MarkerFillColorFuncType|string>, required: true, default: () => '#FFFFFF' }
   },
   computed: {
     validPoints (): Array<MarkerItem> {
-      return this.data.filter(x => (x.lat !== null && x.lon !== null))
+      const filtered = this.data.filter(x => (x.lat !== null && x.lon !== null))
+      for (const item of filtered) {
+        if (item.draggable === undefined) {
+          item.draggable = typeof this.markerDraggableFunc === 'boolean' ? this.markerDraggableFunc : this.markerDraggableFunc(item)
+        }
+      }
+      return filtered
     }
   },
   methods: {
     getMarkerIcon: function (item: MarkerItem) {
       return createIconClass({
-        icon: this.iconFunc(item),
-        iconColor: typeof this.iconColorFunc === 'string' ? this.iconColorFunc : this.iconColorFunc(item),
-        markerColor: typeof this.fillColorFunc === 'string' ? this.fillColorFunc : this.fillColorFunc(item)
+        icon: this.iconFunc(item, this.callbackData),
+        iconColor: typeof this.iconColorFunc === 'string' ? this.iconColorFunc : this.iconColorFunc(item, this.callbackData),
+        markerColor: typeof this.fillColorFunc === 'string' ? this.fillColorFunc : this.fillColorFunc(item, this.callbackData)
       })
     },
     getLayer: function () : FeatureGroup {

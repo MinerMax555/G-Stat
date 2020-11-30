@@ -5,8 +5,7 @@
     :zoom="zoom"
     :center="center"
     :options="Object.assign(defaultMapOptions, mapOptions)"
-    @update:zoom="onZoom"
-    @move="onMove"
+    v-on="$listeners"
   >
     <l-control :position="legendPosition">
       <slot name="legend" />
@@ -42,6 +41,7 @@
       :data="markerData"
       :refresh="refresh"
       :callback-data="markerCallbackData"
+      :marker-draggable-func="markerDraggableFunc"
       :fill-color-func="markerFillColorFunc"
       :icon-func="markerIconFunc"
       :icon-color-func="markerIconColorFunc"
@@ -57,15 +57,13 @@ import * as geojson from 'geojson'
 
 import { LMap, LTileLayer, LControl } from 'vue2-leaflet'
 import { GestureHandling } from '@gstat/leaflet-gesture-handling'
-import { FeatureGroup, LatLngBounds, LeafletEvent, LeafletMouseEvent, Map, MapOptions } from 'leaflet'
+import { FeatureGroup, LatLngBounds, LeafletMouseEvent, Map, MapOptions } from 'leaflet'
 import GStatAreaLayer from '@/components/GStatAreaLayer.vue'
 import GStatMarkerLayer from '@/components/GStatMarkerLayer.vue'
 import {
-  areaBorderColorFunc,
-  areaBorderOpacityFunc,
-  areaBorderWidthFunc,
-  areaFillColorFunc,
-  areaTooltipFunc, markerFillColorFuncType, markerIconColorFuncType, markerIconFuncType,
+  AreaBorderColorFunc, AreaBorderOpacityFunc, AreaBorderWidthFunc, AreaFillColorFunc,
+  AreaTooltipFunc, MarkerDraggableFuncType,
+  MarkerFillColorFuncType, MarkerIconColorFuncType, MarkerIconFuncType,
   MarkerItem
 } from '../types'
 
@@ -116,18 +114,19 @@ export default Vue.extend({
 
     // Styling Area
     animateAreaMouseHover: { type: Boolean, required: false, default: true },
-    areaBorderColorFunc: { type: Function as PropType<areaBorderColorFunc>, required: false, default: undefined },
-    areaBorderOpacityFunc: { type: Function as PropType<areaBorderOpacityFunc>, required: false, default: undefined },
-    areaBorderWidthFunc: { type: Function as PropType<areaBorderWidthFunc>, required: false, default: undefined },
-    areaFillColorFunc: { type: Function as PropType<areaFillColorFunc>, required: false, default: undefined },
-    areaFillOpacityFunc: { type: Function as PropType<areaFillColorFunc>, required: false, default: undefined },
-    areaTooltipFunc: { type: Function as PropType<areaTooltipFunc>, required: false, default: undefined },
+    areaBorderColorFunc: { type: Function as PropType<AreaBorderColorFunc>, required: false, default: undefined },
+    areaBorderOpacityFunc: { type: Function as PropType<AreaBorderOpacityFunc>, required: false, default: undefined },
+    areaBorderWidthFunc: { type: Function as PropType<AreaBorderWidthFunc>, required: false, default: undefined },
+    areaFillColorFunc: { type: Function as PropType<AreaFillColorFunc>, required: false, default: undefined },
+    areaFillOpacityFunc: { type: Function as PropType<AreaFillColorFunc>, required: false, default: undefined },
+    areaTooltipFunc: { type: Function as PropType<AreaTooltipFunc>, required: false, default: undefined },
     areaCallbackData: { type: Object, required: false, default: null },
 
     // Styling Marker
-    markerFillColorFunc: { type: Function as PropType<markerFillColorFuncType>, required: false, default: undefined },
-    markerIconFunc: { type: Function as PropType<markerIconFuncType>, required: false, default: undefined },
-    markerIconColorFunc: { type: Function as PropType<markerIconColorFuncType>, required: false, default: undefined },
+    markerDraggableFunc: { type: [Boolean, Function] as PropType<boolean|MarkerDraggableFuncType>, required: false, default: undefined },
+    markerFillColorFunc: { type: Function as PropType<MarkerFillColorFuncType>, required: false, default: undefined },
+    markerIconFunc: { type: Function as PropType<MarkerIconFuncType>, required: false, default: undefined },
+    markerIconColorFunc: { type: Function as PropType<MarkerIconColorFuncType>, required: false, default: undefined },
     markerCallbackData: { type: Object, required: false, default: null }
   },
   data () {
@@ -162,12 +161,6 @@ export default Vue.extend({
     },
     getLeafletMarkerLayer () : FeatureGroup {
       return (this.$refs.markerlayer as any).getLayer()
-    },
-    onZoom (event: LeafletEvent) {
-      this.$emit('zoom', event)
-    },
-    onMove (event: LeafletEvent) {
-      this.$emit('move', event)
     },
     onAreaMouseEnter (event: LeafletMouseEvent) {
       this.$emit('area-mouse-enter', event)

@@ -3,7 +3,7 @@
     <g-stat-base-map
       ref="map"
       :attribution-area-data="'Area attribution'"
-      :map-options="{gestureHandling: true}"
+      :marker-draggable-func="markerDraggableFunc"
       :marker-data="markerData"
       :area-data="[]"
       :area-geo-json="geoJson"
@@ -49,6 +49,7 @@
 import GStatBaseMap from '../../src/components/GStatBaseMap.vue'
 import Vue from 'vue'
 import axios from 'axios'
+import { MarkerItem } from '@/types'
 
 export default Vue.extend({
   name: 'TestComponent',
@@ -56,11 +57,14 @@ export default Vue.extend({
   data () {
     return {
       geoJson: null,
-      markerData: [] as any[]
+      markerData: [] as any[],
+      markerDraggableFunc: (item: MarkerItem) => {
+        return item.lat >= 46.6
+      }
     }
   },
   async mounted () {
-    const geo = (await axios.get('https://gstat.eu/api/v1/adminarea/?adminLevel=2')).data
+    const geo = (await axios.get('https://gstat.eu/api/v1/adminarea/?adminLevel=10')).data
     geo.forEach((f: any) => {
       f.type = 'Feature'
     })
@@ -68,18 +72,18 @@ export default Vue.extend({
     this.markerData = [
       {
         id: 1,
-        lat: 40,
-        lon: 40
+        lat: 46.5,
+        lon: 11
       },
       {
         id: 2,
-        lat: 40.1,
-        lon: 40
+        lat: 46.6,
+        lon: 11
       },
       {
         id: 3,
-        lat: 40.2,
-        lon: 40
+        lat: 46.7,
+        lon: 11
       }
     ]
   },

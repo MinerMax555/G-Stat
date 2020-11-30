@@ -9,12 +9,12 @@
 
 <script lang="ts">
 import {
-  areaBorderColorFunc,
-  areaBorderOpacityFunc,
-  areaBorderWidthFunc,
-  areaFillColorFunc,
-  areaFillOpacityFunc,
-  areaTooltipFunc
+  AreaBorderColorFunc,
+  AreaBorderOpacityFunc,
+  AreaBorderWidthFunc,
+  AreaFillColorFunc,
+  AreaFillOpacityFunc,
+  AreaTooltipFunc
 } from '../types'
 import { Layer, LeafletMouseEvent, SVG } from 'leaflet'
 import { LGeoJson } from 'vue2-leaflet'
@@ -38,12 +38,12 @@ export default Vue.extend({
     mouseHoverAnimation: { type: Boolean, default: true },
     attribution: { type: String, default: null },
 
-    borderOpacityFunc: { type: Function as PropType<areaBorderOpacityFunc>, default: () => () => 1 },
-    borderColorFunc: { type: Function as PropType<areaBorderColorFunc>, default: () => () => '#000000' },
-    borderWidthFunc: { type: Function as PropType<areaBorderWidthFunc>, default: () => () => 1 },
-    fillOpacityFunc: { type: Function as PropType<areaFillOpacityFunc>, default: () => () => 0.75 },
-    fillColorFunc: { type: Function as PropType<areaFillColorFunc>, default: () => () => '#FFFFFF' },
-    tooltipFunc: { type: Function as PropType<areaTooltipFunc>, default: () => () => null }
+    borderOpacityFunc: { type: Function as PropType<AreaBorderOpacityFunc>, default: () => () => 1 },
+    borderColorFunc: { type: Function as PropType<AreaBorderColorFunc>, default: () => () => '#000000' },
+    borderWidthFunc: { type: Function as PropType<AreaBorderWidthFunc>, default: () => () => 1 },
+    fillOpacityFunc: { type: Function as PropType<AreaFillOpacityFunc>, default: () => () => 0.75 },
+    fillColorFunc: { type: Function as PropType<AreaFillColorFunc>, default: () => () => '#FFFFFF' },
+    tooltipFunc: { type: Function as PropType<AreaTooltipFunc>, default: () => () => null }
   },
   computed: {
     geoOptions: function () {

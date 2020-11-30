@@ -63,6 +63,7 @@
     "dist/*",
     "src/*"
   ],
+  "sideEffects": ["*.css"],
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
