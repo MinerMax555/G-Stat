@@ -1,1 +1,1 @@
-declare module 'leaflet.markercluster';
+declare module '@glartek/leaflet.markercluster';
