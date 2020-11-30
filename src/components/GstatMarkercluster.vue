@@ -9,7 +9,7 @@
  * NOTE: this was copied over from https://github.com/jperelli/vue2-leaflet-markercluster (MIT License) and may be
  * modified in the future
  */
-import { MarkerClusterGroup } from 'leaflet.markercluster'
+import { MarkerClusterGroup } from '@glartek/leaflet.markercluster'
 import { findRealParent, propsBinder } from 'vue2-leaflet'
 import { DomEvent } from 'leaflet'
 import Vue from 'vue'

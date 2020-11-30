@@ -5,7 +5,6 @@ module.exports = {
   },
   extends: [
     'plugin:vue/recommended',
-    '@vue/standard',
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     '@vue/typescript/recommended'

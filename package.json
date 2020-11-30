@@ -14,9 +14,9 @@
     "lint": "vue-cli-service lint --no-fix"
   },
   "dependencies": {
+    "@glartek/leaflet.markercluster": "^1.4.4",
     "@gstat/leaflet-gesture-handling": "^1.2.2",
     "leaflet": "^1.7.1",
-    "leaflet.markercluster": "^1.4.1",
     "vue2-leaflet": "^2.6.0"
   },
   "devDependencies": {
@@ -63,7 +63,9 @@
     "dist/*",
     "src/*"
   ],
-  "sideEffects": ["*.css"],
+  "sideEffects": [
+    "*.css"
+  ],
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
