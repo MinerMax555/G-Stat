@@ -25,11 +25,11 @@
       :callback-data="areaCallbackData"
       :refresh="refresh"
       :mouse-hover-animation="animateAreaMouseHover"
-      :border-color-func="areaBorderColorFunc"
-      :border-opacity-func="areaBorderOpacityFunc"
-      :border-width-func="areaBorderWidthFunc"
-      :fill-color-func="areaFillColorFunc"
-      :fill-opacity-func="areaFillOpacityFunc"
+      :border-color-func="areaBorderColorFunc || undefined"
+      :border-opacity-func="areaBorderOpacityFunc || undefined"
+      :border-width-func="areaBorderWidthFunc || undefined"
+      :fill-color-func="areaFillColorFunc || undefined"
+      :fill-opacity-func="areaFillOpacityFunc || undefined"
       :tooltip-func="areaTooltipFunc"
       @mouse-enter="onAreaMouseEnter"
       @mouse-leave="onAreaMouseLeave"
@@ -41,10 +41,10 @@
       :data="markerData"
       :refresh="refresh"
       :callback-data="markerCallbackData"
-      :marker-draggable-func="markerDraggableFunc"
-      :fill-color-func="markerFillColorFunc"
-      :icon-func="markerIconFunc"
-      :icon-color-func="markerIconColorFunc"
+      :marker-draggable-func="markerDraggableFunc || undefined"
+      :fill-color-func="markerFillColorFunc || undefined"
+      :icon-func="markerIconFunc || undefined"
+      :icon-color-func="markerIconColorFunc || undefined"
       @ready="$emit('marker-layer-ready')"
       @click="onMarkerClick"
       @marker-move="onMarkerMove"
@@ -115,19 +115,19 @@ export default Vue.extend({
 
     // Styling Area
     animateAreaMouseHover: { type: Boolean, required: false, default: true },
-    areaBorderColorFunc: { type: Function as PropType<AreaBorderColorFunc>, required: false, default: undefined },
-    areaBorderOpacityFunc: { type: Function as PropType<AreaBorderOpacityFunc>, required: false, default: undefined },
-    areaBorderWidthFunc: { type: Function as PropType<AreaBorderWidthFunc>, required: false, default: undefined },
-    areaFillColorFunc: { type: Function as PropType<AreaFillColorFunc>, required: false, default: undefined },
-    areaFillOpacityFunc: { type: Function as PropType<AreaFillColorFunc>, required: false, default: undefined },
-    areaTooltipFunc: { type: Function as PropType<AreaTooltipFunc>, required: false, default: undefined },
+    areaBorderColorFunc: { type: Function as PropType<AreaBorderColorFunc|string>, required: false, default: null },
+    areaBorderOpacityFunc: { type: Function as PropType<AreaBorderOpacityFunc|number>, required: false, default: null },
+    areaBorderWidthFunc: { type: Function as PropType<AreaBorderWidthFunc|number>, required: false, default: null },
+    areaFillColorFunc: { type: Function as PropType<AreaFillColorFunc|string>, required: false, default: null },
+    areaFillOpacityFunc: { type: Function as PropType<AreaFillColorFunc|number>, required: false, default: null },
+    areaTooltipFunc: { type: Function as PropType<AreaTooltipFunc>, required: false, default: null },
     areaCallbackData: { type: Object, required: false, default: null },
 
     // Styling Marker
-    markerDraggableFunc: { type: [Boolean, Function] as PropType<boolean|MarkerDraggableFuncType>, required: false, default: undefined },
-    markerFillColorFunc: { type: Function as PropType<MarkerFillColorFuncType>, required: false, default: undefined },
-    markerIconFunc: { type: Function as PropType<MarkerIconFuncType>, required: false, default: undefined },
-    markerIconColorFunc: { type: Function as PropType<MarkerIconColorFuncType>, required: false, default: undefined },
+    markerDraggableFunc: { type: [Boolean, Function] as PropType<MarkerDraggableFuncType|boolean>, required: false, default: null },
+    markerFillColorFunc: { type: Function as PropType<MarkerFillColorFuncType|string>, required: false, default: null },
+    markerIconFunc: { type: Function as PropType<MarkerIconFuncType|string>, required: false, default: null },
+    markerIconColorFunc: { type: Function as PropType<MarkerIconColorFuncType|string>, required: false, default: null },
     markerCallbackData: { type: Object, required: false, default: null }
   },
   data () {

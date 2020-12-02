@@ -38,12 +38,12 @@ export default Vue.extend({
     mouseHoverAnimation: { type: Boolean, default: true },
     attribution: { type: String, default: null },
 
-    borderOpacityFunc: { type: Function as PropType<AreaBorderOpacityFunc>, default: () => () => 1 },
-    borderColorFunc: { type: Function as PropType<AreaBorderColorFunc>, default: () => () => '#000000' },
-    borderWidthFunc: { type: Function as PropType<AreaBorderWidthFunc>, default: () => () => 1 },
-    fillOpacityFunc: { type: Function as PropType<AreaFillOpacityFunc>, default: () => () => 0.75 },
-    fillColorFunc: { type: Function as PropType<AreaFillColorFunc>, default: () => () => '#FFFFFF' },
-    tooltipFunc: { type: Function as PropType<AreaTooltipFunc>, default: () => () => null }
+    borderOpacityFunc: { type: Function as PropType<AreaBorderOpacityFunc|number>, default: 1 },
+    borderColorFunc: { type: Function as PropType<AreaBorderColorFunc|string>, default: '#000000' },
+    borderWidthFunc: { type: Function as PropType<AreaBorderWidthFunc|number>, default: 1 },
+    fillOpacityFunc: { type: Function as PropType<AreaFillOpacityFunc|number>, default: 0.75 },
+    fillColorFunc: { type: Function as PropType<AreaFillColorFunc|string>, default: '#FFFFFF' },
+    tooltipFunc: { type: Function as PropType<AreaTooltipFunc>, default: null }
   },
   computed: {
     geoOptions: function () {
@@ -52,14 +52,14 @@ export default Vue.extend({
           const geoID = Number(feature.id)
           const data = this.geoData[geoID]
 
-          const fillColor = this.fillColorFunc(feature, data, this.callbackData)
+          const fillColor = typeof this.fillColorFunc === 'function' ? this.fillColorFunc(feature, data, this.callbackData) : this.fillColorFunc
           return {
             renderer: this.renderer,
-            color: this.borderColorFunc(feature, data, fillColor, this.callbackData),
-            opacity: this.borderOpacityFunc(feature, data, this.callbackData),
-            weight: this.borderWidthFunc(feature, data, this.callbackData),
+            color: typeof this.borderColorFunc === 'function' ? this.borderColorFunc(feature, data, fillColor, this.callbackData) : this.borderColorFunc,
+            opacity: typeof this.borderOpacityFunc === 'function' ? this.borderOpacityFunc(feature, data, this.callbackData) : this.borderOpacityFunc,
+            weight: typeof this.borderWidthFunc === 'function' ? this.borderWidthFunc(feature, data, this.callbackData) : this.borderWidthFunc,
             fillColor: fillColor,
-            fillOpacity: this.fillOpacityFunc(feature, data, this.callbackData)
+            fillOpacity: typeof this.fillOpacityFunc === 'function' ? this.fillOpacityFunc(feature, data, this.callbackData) : this.fillOpacityFunc
           }
         },
         onEachFeature: (feature: geojson.Feature, layer: Layer): void => {
@@ -103,7 +103,7 @@ export default Vue.extend({
         const target = event.target
         const data = this.geoData[target.feature.id]
         target.setStyle({
-          weight: this.borderWidthFunc(target.feature, data) * 2 + 3
+          weight: (typeof this.borderWidthFunc === 'function' ? this.borderWidthFunc(target.feature, data) : this.borderWidthFunc) * 2 + 3
         })
         target.bringToFront()
       }
@@ -114,7 +114,7 @@ export default Vue.extend({
         const target = event.target
         const data = this.geoData[target.feature.id]
         target.setStyle({
-          weight: this.borderWidthFunc(target.feature, data)
+          weight: typeof this.borderWidthFunc === 'function' ? this.borderWidthFunc(target.feature, data) : this.borderWidthFunc
         })
       }
       this.$emit('mouse-leave', event)

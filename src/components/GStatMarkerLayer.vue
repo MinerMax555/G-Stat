@@ -37,10 +37,10 @@ export default Vue.extend({
   props: {
     data: { type: Array as PropType<Array<MarkerItem>>, required: true },
     callbackData: { type: Object, required: false, default: null },
-    markerDraggableFunc: { type: [Boolean, Function] as PropType<boolean|MarkerDraggableFuncType>, required: false, default: false },
-    iconFunc: { type: Function as PropType<MarkerIconFuncType>, required: false, default: () => null },
-    iconColorFunc: { type: Function as PropType<MarkerIconColorFuncType|string>, required: true, default: () => '#000000' },
-    fillColorFunc: { type: Function as PropType<MarkerFillColorFuncType|string>, required: true, default: () => '#FFFFFF' }
+    markerDraggableFunc: { type: [Boolean, Function] as PropType<MarkerDraggableFuncType|boolean>, required: false, default: false },
+    iconFunc: { type: Function as PropType<MarkerIconFuncType|string>, required: false, default: '' },
+    iconColorFunc: { type: Function as PropType<MarkerIconColorFuncType|string>, required: true, default: '#000000' },
+    fillColorFunc: { type: Function as PropType<MarkerFillColorFuncType|string>, required: true, default: '#FFFFFF' }
   },
   computed: {
     validPoints (): Array<MarkerItem> {
@@ -56,9 +56,9 @@ export default Vue.extend({
   methods: {
     getMarkerIcon: function (item: MarkerItem) {
       return createIconClass({
-        icon: this.iconFunc(item, this.callbackData),
-        iconColor: typeof this.iconColorFunc === 'string' ? this.iconColorFunc : this.iconColorFunc(item, this.callbackData),
-        markerColor: typeof this.fillColorFunc === 'string' ? this.fillColorFunc : this.fillColorFunc(item, this.callbackData)
+        icon: typeof this.iconFunc === 'function' ? this.iconFunc(item, this.callbackData) : this.iconFunc,
+        iconColor: typeof this.iconColorFunc === 'function' ? this.iconColorFunc(item, this.callbackData) : this.iconColorFunc,
+        markerColor: typeof this.fillColorFunc === 'function' ? this.fillColorFunc(item, this.callbackData) : this.fillColorFunc,
       })
     },
     getLayer: function () : FeatureGroup {

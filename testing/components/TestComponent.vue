@@ -8,11 +8,11 @@
       :area-data="[]"
       :area-geo-json="geoJson"
       :area-tooltip-func="() => 'Tooltip'"
-      :area-border-color-func="() => 'red'"
-      :area-fill-color-func="() => 'orange'"
-      :area-fill-opacity-func="() => 1"
-      :area-border-opacity-func="() => 1"
-      :area-border-width-func="() => 1"
+      :area-border-color-func="'red'"
+      :area-fill-color-func="'orange'"
+      :area-fill-opacity-func="1"
+      :area-border-opacity-func="1"
+      :area-border-width-func="1"
       @marker-move="onMarkerMove"
     >
       <template #legend>
