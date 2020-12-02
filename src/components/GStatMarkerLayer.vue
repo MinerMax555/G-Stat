@@ -38,9 +38,9 @@ export default Vue.extend({
     data: { type: Array as PropType<Array<MarkerItem>>, required: true },
     callbackData: { type: Object, required: false, default: null },
     markerDraggableFunc: { type: [Boolean, Function] as PropType<MarkerDraggableFuncType|boolean>, required: false, default: false },
-    iconFunc: { type: Function as PropType<MarkerIconFuncType|string>, required: false, default: '' },
-    iconColorFunc: { type: Function as PropType<MarkerIconColorFuncType|string>, required: true, default: '#000000' },
-    fillColorFunc: { type: Function as PropType<MarkerFillColorFuncType|string>, required: true, default: '#FFFFFF' }
+    iconFunc: { type: [Function, String] as PropType<MarkerIconFuncType|string>, required: false, default: '' },
+    iconColorFunc: { type: [Function, String] as PropType<MarkerIconColorFuncType|string>, required: true, default: '#000000' },
+    fillColorFunc: { type: [Function, String] as PropType<MarkerFillColorFuncType|string>, required: true, default: '#FFFFFF' }
   },
   computed: {
     validPoints (): Array<MarkerItem> {

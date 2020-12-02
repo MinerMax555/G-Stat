@@ -38,11 +38,11 @@ export default Vue.extend({
     mouseHoverAnimation: { type: Boolean, default: true },
     attribution: { type: String, default: null },
 
-    borderOpacityFunc: { type: Function as PropType<AreaBorderOpacityFunc|number>, default: 1 },
-    borderColorFunc: { type: Function as PropType<AreaBorderColorFunc|string>, default: '#000000' },
-    borderWidthFunc: { type: Function as PropType<AreaBorderWidthFunc|number>, default: 1 },
-    fillOpacityFunc: { type: Function as PropType<AreaFillOpacityFunc|number>, default: 0.75 },
-    fillColorFunc: { type: Function as PropType<AreaFillColorFunc|string>, default: '#FFFFFF' },
+    borderOpacityFunc: { type: [Function, Number] as PropType<AreaBorderOpacityFunc|number>, default: 1 },
+    borderColorFunc: { type: [Function, String] as PropType<AreaBorderColorFunc|string>, default: '#000000' },
+    borderWidthFunc: { type: [Function, Number] as PropType<AreaBorderWidthFunc|number>, default: 1 },
+    fillOpacityFunc: { type: [Function, Number] as PropType<AreaFillOpacityFunc|number>, default: 0.75 },
+    fillColorFunc: { type: [Function, String] as PropType<AreaFillColorFunc|string>, default: '#FFFFFF' },
     tooltipFunc: { type: Function as PropType<AreaTooltipFunc>, default: null }
   },
   computed: {

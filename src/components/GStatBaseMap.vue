@@ -115,11 +115,11 @@ export default Vue.extend({
 
     // Styling Area
     animateAreaMouseHover: { type: Boolean, required: false, default: true },
-    areaBorderColorFunc: { type: Function as PropType<AreaBorderColorFunc|string>, required: false, default: null },
-    areaBorderOpacityFunc: { type: Function as PropType<AreaBorderOpacityFunc|number>, required: false, default: null },
-    areaBorderWidthFunc: { type: Function as PropType<AreaBorderWidthFunc|number>, required: false, default: null },
-    areaFillColorFunc: { type: Function as PropType<AreaFillColorFunc|string>, required: false, default: null },
-    areaFillOpacityFunc: { type: Function as PropType<AreaFillColorFunc|number>, required: false, default: null },
+    areaBorderColorFunc: { type: [Function, String] as PropType<AreaBorderColorFunc|string>, required: false, default: null },
+    areaBorderOpacityFunc: { type: [Function, Number] as PropType<AreaBorderOpacityFunc|number>, required: false, default: null },
+    areaBorderWidthFunc: { type: [Function, Number] as PropType<AreaBorderWidthFunc|number>, required: false, default: null },
+    areaFillColorFunc: { type: [Function, String] as PropType<AreaFillColorFunc|string>, required: false, default: null },
+    areaFillOpacityFunc: { type: [Function, Number] as PropType<AreaFillColorFunc|number>, required: false, default: null },
     areaTooltipFunc: { type: Function as PropType<AreaTooltipFunc>, required: false, default: null },
     areaCallbackData: { type: Object, required: false, default: null },
 
