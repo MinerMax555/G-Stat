@@ -36,11 +36,11 @@
       @click="onAreaClick"
     />
     <g-stat-marker-layer
-      v-if="markerData && markerData.length > 0"
       ref="markerlayer"
       :data="markerData"
       :refresh="refresh"
       :callback-data="markerCallbackData"
+      :disable-clustering="disableMarkerClustering"
       :marker-draggable-func="markerDraggableFunc || undefined"
       :fill-color-func="markerFillColorFunc || undefined"
       :icon-func="markerIconFunc || undefined"
@@ -124,6 +124,7 @@ export default Vue.extend({
     areaCallbackData: { type: Object, required: false, default: null },
 
     // Styling Marker
+    disableMarkerClustering: { type: Boolean, required: false, default: false },
     markerDraggableFunc: { type: [Boolean, Function] as PropType<MarkerDraggableFuncType|boolean>, required: false, default: null },
     markerFillColorFunc: { type: Function as PropType<MarkerFillColorFuncType|string>, required: false, default: null },
     markerIconFunc: { type: Function as PropType<MarkerIconFuncType|string>, required: false, default: null },

@@ -4,6 +4,7 @@
       ref="map"
       :attribution-area-data="'Area attribution'"
       :marker-draggable-func="markerDraggableFunc"
+      :disable-marker-clustering="true"
       :marker-data="markerData"
       :area-data="[]"
       :area-geo-json="geoJson"
@@ -43,6 +44,11 @@
     >
       Center on Marker
     </button>
+    <br>
+    <div v-if="markerData">
+      <p>{{ markerData[0].lat }}</p>
+      <p>{{ markerData[0].lon }}</p>
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -59,12 +65,13 @@ export default Vue.extend({
     return {
       geoJson: null,
       markerData: [] as any[],
-      markerDraggableFunc: (item: MarkerItem) => {
-        return item.lat >= 46.6
+      markerDraggableFunc: () => {
+        return true
       }
     }
   },
   async mounted () {
+    console.log('remount')
     const geo = (await axios.get('https://gstat.eu/api/v1/adminarea/?adminLevel=10')).data
     geo.forEach((f: any) => {
       f.type = 'Feature'
@@ -76,22 +83,14 @@ export default Vue.extend({
         lat: 46.5,
         lon: 11
       },
-      {
-        id: 2,
-        lat: 46.6,
-        lon: 11
-      },
-      {
-        id: 3,
-        lat: 46.7,
-        lon: 11
-      }
     ]
   },
   methods: {
     onMarkerMove: function (event: {marker: MarkerItem, newPosition: LatLng}) {
-      event.marker.lat = event.newPosition.lat
-      event.marker.lon = event.newPosition.lng
+      this.markerData[0].lat = event.newPosition.lat
+      this.markerData[0].lon = event.newPosition.lng
+      //event.marker.lat = event.newPosition.lat
+      //event.marker.lon = event.newPosition.lng
     }
   }
 })

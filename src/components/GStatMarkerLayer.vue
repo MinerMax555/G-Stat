@@ -1,5 +1,6 @@
 <template>
   <marker-cluster
+    v-if="!disableClustering"
     ref="clusterlayer"
     :options="{maxClusterRadius: 50}"
     @ready="$emit('ready')"
@@ -14,6 +15,17 @@
       @update:latLng="onPositionUpdate(marker, $event)"
     />
   </marker-cluster>
+  <div v-else>
+    <l-marker
+      v-for="marker of validPoints"
+      :key="marker.id"
+      :lat-lng="[marker.lat, marker.lon]"
+      :draggable="marker.draggable"
+      :icon="getMarkerIcon(marker)"
+      @click="onClick(marker)"
+      @update:latLng="onPositionUpdate(marker, $event)"
+    />
+  </div>
 </template>
 <script lang="ts">
 import {
@@ -23,10 +35,10 @@ import {
   MarkerIconColorFuncType,
   MarkerFillColorFuncType
 } from '../types'
-import { LMarker } from 'vue2-leaflet'
-import { createIconClass } from '@/util/markerUtils.ts'
-import Vue, { PropType } from 'vue'
-import { FeatureGroup, LatLng } from 'leaflet'
+import {LMarker} from 'vue2-leaflet'
+import {createIconClass} from '@/util/markerUtils.ts'
+import Vue, {PropType} from 'vue'
+import {FeatureGroup, LatLng} from 'leaflet'
 
 export default Vue.extend({
   name: 'GStatMarkerLayer',
@@ -37,10 +49,27 @@ export default Vue.extend({
   props: {
     data: { type: Array as PropType<Array<MarkerItem>>, required: true },
     callbackData: { type: Object, required: false, default: null },
-    markerDraggableFunc: { type: [Boolean, Function] as PropType<MarkerDraggableFuncType|boolean>, required: false, default: false },
-    iconFunc: { type: [Function, String] as PropType<MarkerIconFuncType|string>, required: false, default: '' },
-    iconColorFunc: { type: [Function, String] as PropType<MarkerIconColorFuncType|string>, required: true, default: '#000000' },
-    fillColorFunc: { type: [Function, String] as PropType<MarkerFillColorFuncType|string>, required: true, default: '#FFFFFF' }
+    disableClustering: { type: Boolean, required: false, default: false },
+    markerDraggableFunc: {
+      type: [Boolean, Function] as PropType<MarkerDraggableFuncType | boolean>,
+      required: false,
+      default: false
+    },
+    iconFunc: {
+      type: [Function, String] as PropType<MarkerIconFuncType | string>,
+      required: false,
+      default: ''
+    },
+    iconColorFunc: {
+      type: [Function, String] as PropType<MarkerIconColorFuncType | string>,
+      required: true,
+      default: '#000000'
+    },
+    fillColorFunc: {
+      type: [Function, String] as PropType<MarkerFillColorFuncType | string>,
+      required: true,
+      default: '#FFFFFF'
+    }
   },
   computed: {
     validPoints (): Array<MarkerItem> {
