@@ -24,7 +24,15 @@
       :icon="getMarkerIcon(marker)"
       @click="onClick(marker)"
       @update:latLng="onPositionUpdate(marker, $event)"
-    />
+    >
+      <l-popup v-if="popupComponent">
+        <component
+          :is="popupComponent"
+          :marker="marker"
+          :callback-data="callbackData"
+        />
+      </l-popup>
+    </l-marker>
   </div>
 </template>
 <script lang="ts">
@@ -35,7 +43,7 @@ import {
   MarkerIconColorFuncType,
   MarkerFillColorFuncType
 } from '../types'
-import {LMarker} from 'vue2-leaflet'
+import {LMarker, LPopup} from 'vue2-leaflet'
 import {createIconClass} from '@/util/markerUtils.ts'
 import Vue, {PropType} from 'vue'
 import {FeatureGroup, LatLng} from 'leaflet'
@@ -44,12 +52,14 @@ export default Vue.extend({
   name: 'GStatMarkerLayer',
   components: {
     'l-marker': LMarker,
+    'l-popup': LPopup,
     'marker-cluster': () => import('@/components/GstatMarkercluster.vue')
   },
   props: {
     data: { type: Array as PropType<Array<MarkerItem>>, required: true },
     callbackData: { type: Object, required: false, default: null },
     disableClustering: { type: Boolean, required: false, default: false },
+    popupComponent: { type: Object, required: false, default: null },
     markerDraggableFunc: {
       type: [Boolean, Function] as PropType<MarkerDraggableFuncType | boolean>,
       required: false,

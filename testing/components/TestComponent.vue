@@ -4,6 +4,7 @@
       ref="map"
       :attribution-area-data="'Area attribution'"
       :marker-draggable-func="markerDraggableFunc"
+      :marker-popup-component="popup"
       :disable-marker-clustering="true"
       :marker-data="markerData"
       :area-data="[]"
@@ -57,6 +58,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import { MarkerItem } from '@/types'
 import { LatLng } from 'leaflet'
+import TestPopupContent from './TestPopupContent.vue'
 
 export default Vue.extend({
   name: 'TestComponent',
@@ -67,7 +69,8 @@ export default Vue.extend({
       markerData: [] as any[],
       markerDraggableFunc: () => {
         return true
-      }
+      },
+      popup: TestPopupContent
     }
   },
   async mounted () {

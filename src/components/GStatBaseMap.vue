@@ -40,6 +40,7 @@
       :data="markerData"
       :refresh="refresh"
       :callback-data="markerCallbackData"
+      :popup-component="markerPopupComponent"
       :disable-clustering="disableMarkerClustering"
       :marker-draggable-func="markerDraggableFunc || undefined"
       :fill-color-func="markerFillColorFunc || undefined"
@@ -124,6 +125,7 @@ export default Vue.extend({
     areaCallbackData: { type: Object, required: false, default: null },
 
     // Styling Marker
+    markerPopupComponent: { type: Object, required: false, default: null },
     disableMarkerClustering: { type: Boolean, required: false, default: false },
     markerDraggableFunc: { type: [Boolean, Function] as PropType<MarkerDraggableFuncType|boolean>, required: false, default: null },
     markerFillColorFunc: { type: Function as PropType<MarkerFillColorFuncType|string>, required: false, default: null },
