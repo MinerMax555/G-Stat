@@ -13,7 +13,15 @@
       :icon="getMarkerIcon(marker)"
       @click="onClick(marker)"
       @update:latLng="onPositionUpdate(marker, $event)"
-    />
+    >
+      <l-popup v-if="popupComponent">
+        <component
+          :is="popupComponent"
+          :marker="marker"
+          :callback-data="callbackData"
+        />
+      </l-popup>
+    </l-marker>
   </marker-cluster>
   <div v-else>
     <l-marker

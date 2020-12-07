@@ -5,7 +5,7 @@
       :attribution-area-data="'Area attribution'"
       :marker-draggable-func="markerDraggableFunc"
       :marker-popup-component="popup"
-      :disable-marker-clustering="true"
+      :disable-marker-clustering="false"
       :marker-data="markerData"
       :area-data="[]"
       :area-geo-json="geoJson"
@@ -53,7 +53,7 @@
   </div>
 </template>
 <script lang="ts">
-import GStatBaseMap from '../../src/components/GStatBaseMap.vue'
+import { GStatBaseMap } from '../../dist/index'
 import Vue from 'vue'
 import axios from 'axios'
 import { MarkerItem } from '@/types'
