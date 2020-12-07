@@ -14,12 +14,20 @@
       @click="onClick(marker)"
       @update:latLng="onPositionUpdate(marker, $event)"
     >
-      <l-popup v-if="popupComponent">
+      <l-popup
+        v-if="popupComponent"
+        :options="{
+          offset: popupOffset,
+          minWidth: popupWidth
+        }"
+      >
         <component
           :is="popupComponent"
+          v-if="(!popupLazy || marker.touched)"
           :marker="marker"
           :callback-data="callbackData"
         />
+        <div v-else />
       </l-popup>
     </l-marker>
   </marker-cluster>
@@ -33,9 +41,13 @@
       @click="onClick(marker)"
       @update:latLng="onPositionUpdate(marker, $event)"
     >
-      <l-popup v-if="popupComponent">
+      <l-popup
+        v-if="popupComponent"
+        :options="{offset: popupOffset}"
+      >
         <component
           :is="popupComponent"
+          v-if="(!popupLazy || marker.touched)"
           :marker="marker"
           :callback-data="callbackData"
         />
@@ -54,7 +66,7 @@ import {
 import {LMarker, LPopup} from 'vue2-leaflet'
 import {createIconClass} from '@/util/markerUtils.ts'
 import Vue, {PropType} from 'vue'
-import {FeatureGroup, LatLng} from 'leaflet'
+import {FeatureGroup, Point, LatLng} from 'leaflet'
 
 export default Vue.extend({
   name: 'GStatMarkerLayer',
@@ -68,6 +80,8 @@ export default Vue.extend({
     callbackData: { type: Object, required: false, default: null },
     disableClustering: { type: Boolean, required: false, default: false },
     popupComponent: { type: Object, required: false, default: null },
+    popupLazy: { type: Boolean, required: false, default: true},
+    popupWidth: { type: Number, required: false, default: 50},
     markerDraggableFunc: {
       type: [Boolean, Function] as PropType<MarkerDraggableFuncType | boolean>,
       required: false,
@@ -87,6 +101,11 @@ export default Vue.extend({
       type: [Function, String] as PropType<MarkerFillColorFuncType | string>,
       required: true,
       default: '#FFFFFF'
+    }
+  },
+  data() {
+    return {
+      popupOffset: new Point(0, -15)
     }
   },
   computed: {
@@ -112,6 +131,7 @@ export default Vue.extend({
       return (this.$refs.clusterlayer as any).mapObject
     },
     onClick: function (item: MarkerItem): void {
+      Vue.set(item, 'touched', true)
       this.$emit('click', item)
     },
     onPositionUpdate: function (marker: MarkerItem, latLng: LatLng): void {

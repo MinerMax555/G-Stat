@@ -1,8 +1,23 @@
 <template>
   <div>
-    <h1>Test!</h1>
+    <h1 v-if="marker.touched">
+      Touched!
+    </h1>
+    <h1 v-if="marker.touched">
+      Touched!
+    </h1>
+    <h1 v-if="marker.touched">
+      Touched!
+    </h1>
+    <h1 v-if="marker.touched">
+      Touched!
+    </h1>
+    <h1 v-if="marker.touched">
+      Touched!
+    </h1>
     {{ marker.lat }}
     {{ marker.lon }}
+    <br>
     <button>Click me!</button>
   </div>
 </template>
@@ -13,6 +28,9 @@ export default {
   props: {
     marker: {type: Object, required: true},
     callbackData: {type: Object, required: false, default: null}
+  },
+  mounted() {
+    console.log('popup mount')
   }
 }
 </script>

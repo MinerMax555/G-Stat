@@ -13,7 +13,8 @@ export declare interface MarkerItem {
   id: number | string;
   lat: number;
   lon: number;
-  draggable?: boolean
+  draggable?: boolean;
+  touched?: boolean;
 }
 
 export declare type MarkerDraggableFuncType = (item: MarkerItem, callbackData?: Record<string, unknown>) => boolean;

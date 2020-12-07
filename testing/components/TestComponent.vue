@@ -5,6 +5,8 @@
       :attribution-area-data="'Area attribution'"
       :marker-draggable-func="markerDraggableFunc"
       :marker-popup-component="popup"
+      :marker-popup-lazy="true"
+      :marker-popup-width="200"
       :disable-marker-clustering="false"
       :marker-data="markerData"
       :area-data="[]"
@@ -16,6 +18,7 @@
       :area-border-opacity-func="1"
       :area-border-width-func="1"
       @marker-move="onMarkerMove"
+      @marker-click="onMarkerClick"
     >
       <template #legend>
         <div style="background: white">
@@ -46,14 +49,14 @@
       Center on Marker
     </button>
     <br>
-    <div v-if="markerData">
+    <div v-if="markerData[0]">
       <p>{{ markerData[0].lat }}</p>
       <p>{{ markerData[0].lon }}</p>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { GStatBaseMap } from '../../dist/index'
+import GStatBaseMap from '../../src/components/GStatBaseMap.vue'
 import Vue from 'vue'
 import axios from 'axios'
 import { MarkerItem } from '@/types'
@@ -94,6 +97,9 @@ export default Vue.extend({
       this.markerData[0].lon = event.newPosition.lng
       //event.marker.lat = event.newPosition.lat
       //event.marker.lon = event.newPosition.lng
+    },
+    onMarkerClick: function (marker: any) {
+      console.log(marker)
     }
   }
 })

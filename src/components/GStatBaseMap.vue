@@ -41,6 +41,8 @@
       :refresh="refresh"
       :callback-data="markerCallbackData"
       :popup-component="markerPopupComponent"
+      :popup-lazy="markerPopupLazy"
+      :popup-width="markerPopupWidth"
       :disable-clustering="disableMarkerClustering"
       :marker-draggable-func="markerDraggableFunc || undefined"
       :fill-color-func="markerFillColorFunc || undefined"
@@ -126,6 +128,8 @@ export default Vue.extend({
 
     // Styling Marker
     markerPopupComponent: { type: Object, required: false, default: null },
+    markerPopupLazy: { type: Boolean, required: false, default: false },
+    markerPopupWidth: { type: Number, required: false, default: 50 },
     disableMarkerClustering: { type: Boolean, required: false, default: false },
     markerDraggableFunc: { type: [Boolean, Function] as PropType<MarkerDraggableFuncType|boolean>, required: false, default: null },
     markerFillColorFunc: { type: Function as PropType<MarkerFillColorFuncType|string>, required: false, default: null },
