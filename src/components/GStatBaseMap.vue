@@ -131,10 +131,10 @@ export default Vue.extend({
     markerPopupLazy: { type: Boolean, required: false, default: false },
     markerPopupWidth: { type: Number, required: false, default: 50 },
     disableMarkerClustering: { type: Boolean, required: false, default: false },
-    markerDraggableFunc: { type: [Boolean, Function] as PropType<MarkerDraggableFuncType|boolean>, required: false, default: null },
-    markerFillColorFunc: { type: Function as PropType<MarkerFillColorFuncType|string>, required: false, default: null },
-    markerIconFunc: { type: Function as PropType<MarkerIconFuncType|string>, required: false, default: null },
-    markerIconColorFunc: { type: Function as PropType<MarkerIconColorFuncType|string>, required: false, default: null },
+    markerDraggableFunc: { type: [Function, Boolean] as PropType<MarkerDraggableFuncType|boolean>, required: false, default: null },
+    markerFillColorFunc: { type: [Function, String] as PropType<MarkerFillColorFuncType|string>, required: false, default: null },
+    markerIconFunc: { type: [Function, String] as PropType<MarkerIconFuncType|string>, required: false, default: null },
+    markerIconColorFunc: { type: [Function, String] as PropType<MarkerIconColorFuncType|string>, required: false, default: null },
     markerCallbackData: { type: Object, required: false, default: null }
   },
   data () {
