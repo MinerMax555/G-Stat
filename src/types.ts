@@ -4,6 +4,9 @@ export declare interface GStatMarkerOptions {
   className: string;
   icon: string | null;
   markerColor: string;
+  contentOffsetX: number;
+  contentOffsetY: number;
+  contentTransform: string;
   iconColor: string;
   outlineColor: string;
   outlineWidth: number;

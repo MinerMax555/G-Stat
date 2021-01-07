@@ -5,6 +5,8 @@
       :attribution-area-data="'Area attribution'"
       :marker-draggable-func="markerDraggableFunc"
       :marker-popup-component="popup"
+      :marker-icon-func="iconFunc"
+      :marker-icon-color-func="'orange'"
       :marker-popup-lazy="true"
       :marker-popup-width="200"
       :disable-marker-clustering="false"
@@ -62,6 +64,9 @@ import axios from 'axios'
 import { MarkerItem } from '@/types'
 import { LatLng } from 'leaflet'
 import TestPopupContent from './TestPopupContent.vue'
+import { SimpleMapScreenshoter } from 'leaflet-simple-map-screenshoter'
+import { mdiArrowDown } from '@mdi/js'
+
 
 export default Vue.extend({
   name: 'TestComponent',
@@ -70,6 +75,7 @@ export default Vue.extend({
     return {
       geoJson: null,
       markerData: [] as any[],
+      iconFunc: () => mdiArrowDown,
       markerDraggableFunc: () => {
         return true
       },
@@ -77,6 +83,7 @@ export default Vue.extend({
     }
   },
   async mounted () {
+    new SimpleMapScreenshoter().addTo((this.$refs['map'] as any).$refs.map.mapObject)
     console.log('remount')
     const geo = (await axios.get('https://gstat.eu/api/v1/adminarea/?adminLevel=10')).data
     geo.forEach((f: any) => {
