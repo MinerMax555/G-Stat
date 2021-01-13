@@ -2,11 +2,12 @@ import * as geojson from 'geojson'
 
 export declare interface GStatMarkerOptions {
   className: string;
-  icon: string | null;
   markerColor: string;
+  icon: string | null;
   iconColor: string;
   outlineColor: string;
   outlineWidth: number;
+  iconWebFont: boolean;
 }
 
 export declare interface MarkerItem {

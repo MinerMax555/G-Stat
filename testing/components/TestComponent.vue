@@ -4,6 +4,7 @@
       ref="map"
       :attribution-area-data="'Area attribution'"
       :marker-draggable-func="markerDraggableFunc"
+      :marker-icon-func="'M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z'"
       :marker-popup-component="popup"
       :marker-popup-lazy="true"
       :marker-popup-width="200"
