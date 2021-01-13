@@ -97,6 +97,11 @@ export default Vue.extend({
       required: true,
       default: '#000000'
     },
+    iconWebFont: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     fillColorFunc: {
       type: [Function, String] as PropType<MarkerFillColorFuncType | string>,
       required: true,
@@ -124,6 +129,7 @@ export default Vue.extend({
       return createIconClass({
         icon: typeof this.iconFunc === 'function' ? this.iconFunc(item, this.callbackData) : this.iconFunc,
         iconColor: typeof this.iconColorFunc === 'function' ? this.iconColorFunc(item, this.callbackData) : this.iconColorFunc,
+        iconWebFont: this.iconWebFont,
         markerColor: typeof this.fillColorFunc === 'function' ? this.fillColorFunc(item, this.callbackData) : this.fillColorFunc,
       })
     },
