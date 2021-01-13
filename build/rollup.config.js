@@ -15,7 +15,7 @@ export default {
     dir: 'dist',
     exports: 'named'
   },
-  external: ['vue', 'leaflet'],
+  external: ['vue', 'vue2-leaflet', 'leaflet'],
   plugins: [
     cleaner({ targets: ['./dist/'] }),
     alias({
