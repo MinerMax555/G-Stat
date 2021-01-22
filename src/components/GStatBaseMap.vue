@@ -158,7 +158,10 @@ export default Vue.extend({
   },
   methods: {
     centerOn (target: { getBounds(): LatLngBounds }) {
-      (this.$refs.map as LMap).fitBounds(target.getBounds())
+      const bounds = target.getBounds();
+      if (bounds.isValid()) {
+        (this.$refs.map as LMap).fitBounds(target.getBounds())
+      }
     },
     centerOnAreaLayer () {
       this.centerOn(this.getLeafletAreaLayer())
