@@ -11,8 +11,10 @@
   "scripts": {
     "serve": "vue-cli-service serve testing/main.js",
     "build": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format es",
-    "lint": "vue-cli-service lint --no-fix"
+    "lint": "vue-cli-service lint --no-fix",
+    "version": "npm run build"
   },
+  "prepublishOnly": "npm run build",
   "dependencies": {
     "@glartek/leaflet.markercluster": "^1.4.4",
     "@gstat/leaflet-gesture-handling": "^1.2.3"
