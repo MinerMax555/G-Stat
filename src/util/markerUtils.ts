@@ -28,7 +28,7 @@ const GstatMapMarkerIcon = L.Icon.extend({
       if (options.iconWebFont) {
         iconHTML = `<foreignObject width="32" height="42" color="${options.iconColor}" class="node mdi ${options.icon}"></foreignObject>`
       } else {
-        iconHTML = `<svg width="24" height="24" viewBox="0 0 24 24" x="3" y="3"><path d="${options.icon}" fill="${options.iconColor}"></path></svg>`
+        iconHTML = `<svg width="20" height="20" viewBox="0 0 24 24" x="5" y="5"><path d="${options.icon}" fill="${options.iconColor}"></path></svg>`
       }
     }
     svg.innerHTML = `
