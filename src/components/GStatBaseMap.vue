@@ -36,6 +36,7 @@
       @click="onAreaClick"
     />
     <g-stat-marker-layer
+      v-if="markerData"
       ref="markerlayer"
       :data="markerData"
       :refresh="refresh"

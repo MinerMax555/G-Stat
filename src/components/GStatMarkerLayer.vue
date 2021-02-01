@@ -115,6 +115,9 @@ export default Vue.extend({
   },
   computed: {
     validPoints (): Array<MarkerItem> {
+      if(!this.data) {
+        return []
+      }
       const filtered = this.data.filter(x => (x.lat !== null && x.lon !== null))
       for (const item of filtered) {
         if (item.draggable === undefined) {
