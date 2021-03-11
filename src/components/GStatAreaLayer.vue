@@ -29,7 +29,7 @@ export default Vue.extend({
   props: {
     // Data
     geoJson: { type: Array as PropType<Array<geojson.Feature>>, required: true },
-    geoData: { type: [Array, Object] as PropType<Array<unknown>|Record<number, unknown>>, required: true },
+    geoData: { type: [Array, Object] as PropType<Array<unknown> | Record<number, unknown>>, required: true },
     callbackData: { type: Object, required: false, default: null },
 
     // misc
@@ -38,11 +38,11 @@ export default Vue.extend({
     mouseHoverAnimation: { type: Boolean, default: true },
     attribution: { type: String, default: null },
 
-    borderOpacityFunc: { type: [Function, Number] as PropType<AreaBorderOpacityFunc|number>, default: 1 },
-    borderColorFunc: { type: [Function, String] as PropType<AreaBorderColorFunc|string>, default: '#000000' },
-    borderWidthFunc: { type: [Function, Number] as PropType<AreaBorderWidthFunc|number>, default: 1 },
-    fillOpacityFunc: { type: [Function, Number] as PropType<AreaFillOpacityFunc|number>, default: 0.75 },
-    fillColorFunc: { type: [Function, String] as PropType<AreaFillColorFunc|string>, default: '#FFFFFF' },
+    borderOpacityFunc: { type: [Function, Number] as PropType<AreaBorderOpacityFunc | number>, default: 1 },
+    borderColorFunc: { type: [Function, String] as PropType<AreaBorderColorFunc | string>, default: '#000000' },
+    borderWidthFunc: { type: [Function, Number] as PropType<AreaBorderWidthFunc | number>, default: 1 },
+    fillOpacityFunc: { type: [Function, Number] as PropType<AreaFillOpacityFunc | number>, default: 0.75 },
+    fillColorFunc: { type: [Function, String] as PropType<AreaFillColorFunc | string>, default: '#FFFFFF' },
     tooltipFunc: { type: Function as PropType<AreaTooltipFunc>, default: null }
   },
   computed: {
@@ -95,7 +95,7 @@ export default Vue.extend({
     refreshStyle () {
       (this.$refs.geolayer as LGeoJson).setOptions(this.geoOptions)
     },
-    getLayer () : LGeoJson {
+    getLayer (): LGeoJson {
       return (this.$refs.geolayer as LGeoJson)
     },
     onMouseEnter (event: LeafletMouseEvent) {

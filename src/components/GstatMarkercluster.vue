@@ -14,7 +14,7 @@ import { findRealParent, propsBinder } from 'vue2-leaflet'
 import { DomEvent } from 'leaflet'
 import Vue from 'vue'
 import { GStatMarkercluster } from '../types'
-import EventHandlerFn = DomEvent.EventHandlerFn;
+import EventHandlerFn = DomEvent.EventHandlerFn
 
 const props = {
   options: {

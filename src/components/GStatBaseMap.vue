@@ -120,11 +120,31 @@ export default Vue.extend({
 
     // Styling Area
     animateAreaMouseHover: { type: Boolean, required: false, default: true },
-    areaBorderColorFunc: { type: [Function, String] as PropType<AreaBorderColorFunc|string>, required: false, default: null },
-    areaBorderOpacityFunc: { type: [Function, Number] as PropType<AreaBorderOpacityFunc|number>, required: false, default: null },
-    areaBorderWidthFunc: { type: [Function, Number] as PropType<AreaBorderWidthFunc|number>, required: false, default: null },
-    areaFillColorFunc: { type: [Function, String] as PropType<AreaFillColorFunc|string>, required: false, default: null },
-    areaFillOpacityFunc: { type: [Function, Number] as PropType<AreaFillColorFunc|number>, required: false, default: null },
+    areaBorderColorFunc: {
+      type: [Function, String] as PropType<AreaBorderColorFunc | string>,
+      required: false,
+      default: null
+    },
+    areaBorderOpacityFunc: {
+      type: [Function, Number] as PropType<AreaBorderOpacityFunc | number>,
+      required: false,
+      default: null
+    },
+    areaBorderWidthFunc: {
+      type: [Function, Number] as PropType<AreaBorderWidthFunc | number>,
+      required: false,
+      default: null
+    },
+    areaFillColorFunc: {
+      type: [Function, String] as PropType<AreaFillColorFunc | string>,
+      required: false,
+      default: null
+    },
+    areaFillOpacityFunc: {
+      type: [Function, Number] as PropType<AreaFillColorFunc | number>,
+      required: false,
+      default: null
+    },
     areaTooltipFunc: { type: Function as PropType<AreaTooltipFunc>, required: false, default: null },
     areaCallbackData: { type: Object, required: false, default: null },
 
@@ -133,11 +153,27 @@ export default Vue.extend({
     markerPopupLazy: { type: Boolean, required: false, default: false },
     markerPopupWidth: { type: Number, required: false, default: 50 },
     disableMarkerClustering: { type: Boolean, required: false, default: false },
-    markerDraggableFunc: { type: [Function, Boolean] as PropType<MarkerDraggableFuncType|boolean>, required: false, default: null },
-    markerFillColorFunc: { type: [Function, String] as PropType<MarkerFillColorFuncType|string>, required: false, default: null },
-    markerIconFunc: { type: [Function, String] as PropType<MarkerIconFuncType|string>, required: false, default: null },
-    markerIconColorFunc: { type: [Function, String] as PropType<MarkerIconColorFuncType|string>, required: false, default: null },
-    markerIconWebFont: { type: Boolean, required: false, default: false},
+    markerDraggableFunc: {
+      type: [Function, Boolean] as PropType<MarkerDraggableFuncType | boolean>,
+      required: false,
+      default: null
+    },
+    markerFillColorFunc: {
+      type: [Function, String] as PropType<MarkerFillColorFuncType | string>,
+      required: false,
+      default: null
+    },
+    markerIconFunc: {
+      type: [Function, String] as PropType<MarkerIconFuncType | string>,
+      required: false,
+      default: null
+    },
+    markerIconColorFunc: {
+      type: [Function, String] as PropType<MarkerIconColorFuncType | string>,
+      required: false,
+      default: null
+    },
+    markerIconWebFont: { type: Boolean, required: false, default: false },
     markerCallbackData: { type: Object, required: false, default: null }
   },
   data () {
@@ -158,8 +194,8 @@ export default Vue.extend({
     (this.$refs.map as LMap).mapObject.invalidateSize(true)
   },
   methods: {
-    centerOn (target: { getBounds(): LatLngBounds }) {
-      const bounds = target.getBounds();
+    centerOn (target: { getBounds (): LatLngBounds }) {
+      const bounds = target.getBounds()
       if (bounds.isValid()) {
         (this.$refs.map as LMap).fitBounds(target.getBounds())
       }
@@ -170,10 +206,10 @@ export default Vue.extend({
     centerOnMarkerLayer () {
       this.centerOn(this.getLeafletMarkerLayer())
     },
-    getLeafletAreaLayer () : FeatureGroup {
+    getLeafletAreaLayer (): FeatureGroup {
       return (this.$refs.arealayer as any).getLayer()
     },
-    getLeafletMarkerLayer () : FeatureGroup {
+    getLeafletMarkerLayer (): FeatureGroup {
       return (this.$refs.markerlayer as any).getLayer()
     },
     onAreaMouseEnter (event: LeafletMouseEvent) {
@@ -188,7 +224,7 @@ export default Vue.extend({
     onMarkerClick (event: LeafletMouseEvent) {
       this.$emit('marker-click', event)
     },
-    onMarkerMove (event: {marker: MarkerItem, newPosition: LatLng}) {
+    onMarkerMove (event: { marker: MarkerItem, newPosition: LatLng }) {
       this.$emit('marker-move', event)
     }
   }

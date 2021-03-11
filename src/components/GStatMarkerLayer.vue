@@ -63,10 +63,10 @@ import {
   MarkerIconColorFuncType,
   MarkerFillColorFuncType
 } from '../types'
-import {LMarker, LPopup} from 'vue2-leaflet'
-import {createIconClass} from '@/util/markerUtils.ts'
-import Vue, {PropType} from 'vue'
-import {FeatureGroup, Point, LatLng} from 'leaflet'
+import { LMarker, LPopup } from 'vue2-leaflet'
+import { createIconClass } from '@/util/markerUtils'
+import Vue, { PropType } from 'vue'
+import { FeatureGroup, Point, LatLng } from 'leaflet'
 
 export default Vue.extend({
   name: 'GStatMarkerLayer',
@@ -80,8 +80,8 @@ export default Vue.extend({
     callbackData: { type: Object, required: false, default: null },
     disableClustering: { type: Boolean, required: false, default: false },
     popupComponent: { type: Object, required: false, default: null },
-    popupLazy: { type: Boolean, required: false, default: true},
-    popupWidth: { type: Number, required: false, default: 50},
+    popupLazy: { type: Boolean, required: false, default: true },
+    popupWidth: { type: Number, required: false, default: 50 },
     markerDraggableFunc: {
       type: [Boolean, Function] as PropType<MarkerDraggableFuncType | boolean>,
       required: false,
@@ -108,14 +108,14 @@ export default Vue.extend({
       default: '#FFFFFF'
     }
   },
-  data() {
+  data () {
     return {
       popupOffset: new Point(0, -15)
     }
   },
   computed: {
     validPoints (): Array<MarkerItem> {
-      if(!this.data) {
+      if (!this.data) {
         return []
       }
       const filtered = this.data.filter(x => (x.lat !== null && x.lon !== null))
@@ -136,7 +136,7 @@ export default Vue.extend({
         markerColor: typeof this.fillColorFunc === 'function' ? this.fillColorFunc(item, this.callbackData) : this.fillColorFunc,
       })
     },
-    getLayer: function () : FeatureGroup {
+    getLayer: function (): FeatureGroup {
       return (this.$refs.clusterlayer as any).mapObject
     },
     onClick: function (item: MarkerItem): void {
