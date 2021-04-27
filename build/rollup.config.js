@@ -6,6 +6,7 @@ import typescript from 'rollup-plugin-typescript2'
 import vue from 'rollup-plugin-vue'
 import eslint from '@rbnlffl/rollup-plugin-eslint'
 import commonjs from '@rollup/plugin-commonjs'
+import { visualizer } from 'rollup-plugin-visualizer';
 const projectRoot = path.resolve(__dirname, '..')
 
 export default {
@@ -31,6 +32,9 @@ export default {
     eslint({
       throwOnWarning: false,
       throwOnError: true
-    })
+    }),
+    visualizer({filename: 'treemap.html', template: 'treemap'}),
+    visualizer({filename: 'network.html', template: 'network'}),
+    visualizer({filename: 'sunburst.html', template: 'sunburst'}),
   ]
 }
