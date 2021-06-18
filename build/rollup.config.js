@@ -15,7 +15,7 @@ export default {
     dir: 'dist',
     exports: 'named'
   },
-  external: ['vue', 'vue2-leaflet', 'leaflet'],
+  external: ['vue', 'vue2-leaflet', 'leaflet', '@gstat/leaflet-gesture-handling'],
   plugins: [
     cleaner({ targets: ['./dist/'] }),
     alias({
