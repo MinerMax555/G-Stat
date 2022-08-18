@@ -3,18 +3,6 @@
     <h1 v-if="marker.touched">
       Touched!
     </h1>
-    <h1 v-if="marker.touched">
-      Touched!
-    </h1>
-    <h1 v-if="marker.touched">
-      Touched!
-    </h1>
-    <h1 v-if="marker.touched">
-      Touched!
-    </h1>
-    <h1 v-if="marker.touched">
-      Touched!
-    </h1>
     {{ marker.lat }}
     {{ marker.lon }}
     <br>
