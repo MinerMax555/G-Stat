@@ -39,7 +39,7 @@ export default Vue.extend({
     DomEvent.on(this.mapObject as unknown as HTMLElement, this.$listeners as Record<string, EventHandlerFn>)
     propsBinder(this, this.mapObject as any, props)
     this.ready = true
-    this.parentContainer = findRealParent(this.$parent);
+    this.parentContainer = findRealParent(this.$parent as Vue);
     (this.parentContainer as any).addLayer(this)
     this.$nextTick(() => {
       this.$emit('ready', this.mapObject)
