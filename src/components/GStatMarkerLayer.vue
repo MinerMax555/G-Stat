@@ -2,7 +2,7 @@
   <marker-cluster
     v-if="!disableClustering"
     ref="clusterlayer"
-    :options="{maxClusterRadius: 50}"
+    :options="clusterOptions"
     @ready="$emit('ready')"
   >
     <l-marker
@@ -106,6 +106,11 @@ export default Vue.extend({
       type: [Function, String] as PropType<MarkerFillColorFuncType | string>,
       required: true,
       default: '#FFFFFF'
+    },
+    clusterIconFunc: {
+      type: Function,
+      required: false,
+      default: undefined
     }
   },
   data () {
@@ -125,6 +130,13 @@ export default Vue.extend({
         }
       }
       return filtered
+    },
+    clusterOptions () {
+      return {
+        maxClusterRadius: 50,
+        iconCreateFunction: this.clusterIconFunc,
+        iconSize: new Point(40, 40)
+      }
     }
   },
   methods: {

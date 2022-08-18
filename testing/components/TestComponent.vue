@@ -8,6 +8,7 @@
       :marker-popup-component="popup"
       :marker-popup-lazy="true"
       :marker-popup-width="200"
+      :marker-cluster-icon-func="clusterFunc"
       :disable-marker-clustering="false"
       :marker-data="markerData"
       :area-data="[]"
@@ -61,7 +62,7 @@ import GStatBaseMap from '../../src/components/GStatBaseMap.vue'
 import Vue from 'vue'
 import axios from 'axios'
 import { MarkerItem } from '@/types'
-import { LatLng } from 'leaflet'
+import { LatLng, divIcon, Point } from 'leaflet'
 import TestPopupContent from './TestPopupContent.vue'
 
 export default Vue.extend({
@@ -75,7 +76,16 @@ export default Vue.extend({
         return true
       },
       popup: TestPopupContent,
-      markerIcon: 'M23,11H18A1,1 0 0,0 17,12V21A1,1 0 0,0 18,22H23A1,1 0 0,0 24,21V12A1,1 0 0,0 23,11M23,20H18V13H23V20M20,2H2C0.89,2 0,2.89 0,4V16A2,2 0 0,0 2,18H9V20H7V22H15V20H13V18H15V16H2V4H20V9H22V4C22,2.89 21.1,2 20,2Z'
+      markerIcon: 'M23,11H18A1,1 0 0,0 17,12V21A1,1 0 0,0 18,22H23A1,1 0 0,0 24,21V12A1,1 0 0,0 23,11M23,20H18V13H23V20M20,2H2C0.89,2 0,2.89 0,4V16A2,2 0 0,0 2,18H9V20H7V22H15V20H13V18H15V16H2V4H20V9H22V4C22,2.89 21.1,2 20,2Z',
+      clusterFunc: (cluster: any) => {
+        let count = cluster.getChildCount()
+
+        return divIcon({
+          html: `<div><span>${count}</span></div>`,
+          className: 'marker-cluster marker-cluster-large',
+          iconSize: new Point(40, 40)
+        })
+      }
     }
   },
   async mounted () {
@@ -91,10 +101,25 @@ export default Vue.extend({
         lat: 46.5,
         lon: 11
       },
+      {
+        id: 2,
+        lat: 46.5,
+        lon: 11
+      },
+      {
+        id: 3,
+        lat: 46.5,
+        lon: 11
+      },
+      {
+        id: 4,
+        lat: 46.5,
+        lon: 11
+      },
     ]
   },
   methods: {
-    onMarkerMove: function (event: {marker: MarkerItem, newPosition: LatLng}) {
+    onMarkerMove: function (event: { marker: MarkerItem, newPosition: LatLng }) {
       this.markerData[0].lat = event.newPosition.lat
       this.markerData[0].lon = event.newPosition.lng
       //event.marker.lat = event.newPosition.lat

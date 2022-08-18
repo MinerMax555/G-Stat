@@ -50,6 +50,7 @@
       :icon-func="markerIconFunc || undefined"
       :icon-color-func="markerIconColorFunc || undefined"
       :icon-web-font="markerIconWebFont"
+      :cluster-icon-func="markerClusterIconFunc"
       @ready="$emit('marker-layer-ready')"
       @click="onMarkerClick"
       @marker-move="onMarkerMove"
@@ -172,6 +173,11 @@ export default Vue.extend({
       type: [Function, String] as PropType<MarkerIconColorFuncType | string>,
       required: false,
       default: null
+    },
+    markerClusterIconFunc: {
+      type: Function,
+      required: false,
+      default: undefined
     },
     markerIconWebFont: { type: Boolean, required: false, default: false },
     markerCallbackData: { type: Object, required: false, default: null }
