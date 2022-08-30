@@ -48,7 +48,7 @@
     "rollup-plugin-typescript2": "^0.32.1",
     "rollup-plugin-vue": "^5.1.9",
     "typescript": "^4.4.3",
-    "vue": "^2.6.14",
+    "vue": "^3.2.38",
     "vue2-leaflet": "^2.7.1",
     "vue-template-compiler": "^2.6.14"
   },
@@ -56,7 +56,7 @@
     "@types/geojson": "^7946.0.7",
     "@types/leaflet": "^1.7.5",
     "leaflet": "1.7.1",
-    "vue": "^2.6.14",
+    "vue": "^3.2.38",
     "vue2-leaflet": "^2.7.1"
   },
   "engines": {
