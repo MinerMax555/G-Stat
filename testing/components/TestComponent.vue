@@ -19,8 +19,6 @@
       :area-fill-opacity-func="1"
       :area-border-opacity-func="1"
       :area-border-width-func="1"
-      @marker-move="onMarkerMove"
-      @marker-click="onMarkerClick"
     >
       <template #legend>
         <div style="background: white">
@@ -73,7 +71,7 @@ export default Vue.extend({
       geoJson: null,
       markerData: [] as any[],
       markerDraggableFunc: () => {
-        return true
+        return false
       },
       popup: TestPopupContent,
       markerIcon: 'M23,11H18A1,1 0 0,0 17,12V21A1,1 0 0,0 18,22H23A1,1 0 0,0 24,21V12A1,1 0 0,0 23,11M23,20H18V13H23V20M20,2H2C0.89,2 0,2.89 0,4V16A2,2 0 0,0 2,18H9V20H7V22H15V20H13V18H15V16H2V4H20V9H22V4C22,2.89 21.1,2 20,2Z',
@@ -95,28 +93,22 @@ export default Vue.extend({
       f.type = 'Feature'
     })
     this.geoJson = geo
-    this.markerData = [
-      {
-        id: 1,
-        lat: 46.5,
-        lon: 11
-      },
-      {
-        id: 2,
-        lat: 46.5,
-        lon: 11
-      },
-      {
-        id: 3,
-        lat: 46.5,
-        lon: 11
-      },
-      {
-        id: 4,
-        lat: 46.5,
-        lon: 11
-      },
-    ]
+    this.markerData = []
+    for (let i = 0; i < 35; i++) {
+      const batch = []
+      //Simulate Backend API-Calls
+      await new Promise(resolve => setTimeout(resolve, 150))
+      for (let j = 0; j < 100; j++) {
+        batch.push({
+          id: i * 100 + j,
+          lat: 46.5 + Math.random(),
+          lon: 11 + Math.random()
+        })
+      }
+      this.markerData = this.markerData.concat(batch)
+      console.log('batch' + i)
+    }
+    //Add 20 Batches of 100 Markers each
   },
   methods: {
     onMarkerMove: function (event: { marker: MarkerItem, newPosition: LatLng }) {

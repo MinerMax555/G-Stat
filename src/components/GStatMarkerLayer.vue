@@ -2,9 +2,12 @@
   <marker-cluster
     v-if="!disableClustering"
     ref="clusterlayer"
+    :data="markerData"
+    :icon-func="getMarkerIcon"
     :options="clusterOptions"
     @ready="$emit('ready')"
   >
+    <!--
     <l-marker
       v-for="marker of validPoints"
       :key="marker.id"
@@ -30,6 +33,7 @@
         <div v-else />
       </l-popup>
     </l-marker>
+    -->
   </marker-cluster>
   <div v-else>
     <l-marker
@@ -66,7 +70,7 @@ import {
 import { LMarker, LPopup } from 'vue2-leaflet'
 import { createIconClass } from '@/util/markerUtils'
 import Vue, { PropType } from 'vue'
-import { FeatureGroup, Point, LatLng } from 'leaflet'
+import { FeatureGroup, Point, LatLng, Marker } from 'leaflet'
 
 export default Vue.extend({
   name: 'GStatMarkerLayer',
@@ -130,6 +134,13 @@ export default Vue.extend({
         }
       }
       return filtered
+    },
+    markerData () {
+      const ret = []
+      for(const point of this.validPoints) {
+        ret.push(new Marker([point.lat, point.lon], { icon: this.getMarkerIcon(point)}))
+      }
+      return ret
     },
     clusterOptions () {
       return {
