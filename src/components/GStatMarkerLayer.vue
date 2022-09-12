@@ -57,13 +57,20 @@ import {
 import { LMarker, LPopup } from 'vue2-leaflet'
 import { createIconClass } from '@/util/markerUtils'
 import Vue, { PropType } from 'vue'
-import { FeatureGroup, Point, LatLng, Marker } from 'leaflet'
+import { FeatureGroup, Point, LatLng, Marker, LeafletMouseEvent, Icon } from 'leaflet'
 
-const GStatMarker: Marker = Marker.extend({
+const GStatMarker: (new (...args: any[]) => Marker) = Marker.extend({
   options: {
     item: 'Original Data passed down'
   }
 })
+
+declare module 'vue/types/vue' {
+  interface Vue {
+    validPoints: Array<MarkerItem>;
+    getMarkerIcon: (item: MarkerItem) => Icon;
+  }
+}
 
 export default Vue.extend({
   name: 'GStatMarkerLayer',
@@ -146,7 +153,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    getMarkerIcon: function (item: MarkerItem) {
+    getMarkerIcon (item: MarkerItem): Icon {
       return createIconClass({
         icon: typeof this.iconFunc === 'function' ? this.iconFunc(item, this.callbackData) : this.iconFunc,
         iconColor: typeof this.iconColorFunc === 'function' ? this.iconColorFunc(item, this.callbackData) : this.iconColorFunc,
@@ -157,7 +164,7 @@ export default Vue.extend({
     getLayer: function (): FeatureGroup {
       return (this.$refs.clusterlayer as any).mapObject
     },
-    onClick: function (event): void {
+    onClick: function (event: LeafletMouseEvent): void {
       console.log(event.sourceTarget.options.item)
       Vue.set(event.sourceTarget.options.item, 'touched', true)
       this.currentMarker = event.sourceTarget.options.item
