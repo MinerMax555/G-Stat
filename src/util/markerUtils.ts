@@ -1,5 +1,5 @@
 import L from 'leaflet'
-import {GStatMarkerOptions} from '@/types'
+import {GStatMarkerOptions} from '../types'
 
 const DEFAULT_MARKER_OPTIONS: GStatMarkerOptions = {
   className: 'l-icon-material',

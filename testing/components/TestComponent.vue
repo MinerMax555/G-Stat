@@ -112,8 +112,9 @@ export default Vue.extend({
   },
   methods: {
     onMarkerMove: function (event: { marker: MarkerItem, newPosition: LatLng }) {
-      this.markerData[0].lat = event.newPosition.lat
-      this.markerData[0].lon = event.newPosition.lng
+      console.log(event)
+      //this.markerData[0].lat = event.newPosition.lat
+      //this.markerData[0].lon = event.newPosition.lng
       //event.marker.lat = event.newPosition.lat
       //event.marker.lon = event.newPosition.lng
     },
