@@ -72,7 +72,7 @@ import {
   AreaTooltipFunc, MarkerDraggableFuncType,
   MarkerFillColorFuncType, MarkerIconColorFuncType, MarkerIconFuncType,
   MarkerItem
-} from '@/types'
+} from '../types'
 
 Map.addInitHook('addHandler', 'gestureHandling', GestureHandling)
 
