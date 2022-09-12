@@ -43,6 +43,9 @@ export default Vue.extend({
     this.parentContainer.addLayer(this)
     this.$nextTick(() => {
       this.$emit('ready', this.mapObject)
+      if(this.data) {
+        (this.mapObject as leaflet.MarkerClusterGroup).addLayers(this.data as any);
+      }
     })
   },
   beforeDestroy () {
