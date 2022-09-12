@@ -59,8 +59,7 @@
 import GStatBaseMap from '../../src/components/GStatBaseMap.vue'
 import Vue from 'vue'
 import axios from 'axios'
-import { MarkerItem } from '@/types'
-import { LatLng, divIcon, Point } from 'leaflet'
+import { divIcon, Point } from 'leaflet'
 import TestPopupContent from './TestPopupContent.vue'
 
 export default Vue.extend({
@@ -111,16 +110,6 @@ export default Vue.extend({
     //Add 20 Batches of 100 Markers each
   },
   methods: {
-    onMarkerMove: function (event: { marker: MarkerItem, newPosition: LatLng }) {
-      console.log(event)
-      //this.markerData[0].lat = event.newPosition.lat
-      //this.markerData[0].lon = event.newPosition.lng
-      //event.marker.lat = event.newPosition.lat
-      //event.marker.lon = event.newPosition.lng
-    },
-    onMarkerClick: function (marker: any) {
-      console.log(marker)
-    }
   }
 })
 </script>

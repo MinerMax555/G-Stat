@@ -6,11 +6,10 @@
 
 <script lang="ts">
 import 'leaflet.markercluster'
-import leaflet, { DomEvent } from 'leaflet'
+import leaflet, { DomEvent, Marker } from 'leaflet'
 import { findRealParent, propsBinder } from 'vue2-leaflet'
-//import { DomEvent } from 'leaflet'
 import Vue from 'vue'
-import { GStatMarkercluster } from '@/types'
+import { GStatMarkercluster } from '../types'
 import EventHandlerFn = DomEvent.EventHandlerFn
 
 const props = {
@@ -22,16 +21,17 @@ export default Vue.extend({
   props,
   data () {
     return {
-      mapObject: null as leaflet.MarkerClusterGroup|null,
+      mapObject: null as leaflet.MarkerClusterGroup | null,
       parentContainer: null as any,
       ready: false
     }
   },
   watch: {
-    data() {
-      //TODO only add diff?
-      (this.mapObject as leaflet.MarkerClusterGroup).removeLayers(this.data);
-      (this.mapObject as leaflet.MarkerClusterGroup).addLayers(this.data)
+    data(newVal: Marker[], oldVal: Marker[]) {
+      if (this.mapObject) {
+        this.mapObject.removeLayers(oldVal);
+        this.mapObject.addLayers(newVal);
+      }
     }
   },
   mounted () {
@@ -39,7 +39,7 @@ export default Vue.extend({
     DomEvent.on(this.mapObject as unknown as HTMLElement, this.$listeners as Record<string, EventHandlerFn>)
     propsBinder(this, this.mapObject as any, props)
     this.ready = true
-    this.parentContainer = findRealParent(this.$parent as Vue);
+    this.parentContainer = findRealParent(this.$parent as Vue)
     this.parentContainer.addLayer(this)
     this.$nextTick(() => {
       this.$emit('ready', this.mapObject)
@@ -49,12 +49,12 @@ export default Vue.extend({
     this.parentContainer.removeLayer(this)
   },
   methods: {
-    addLayer (layer: {mapObject: leaflet.Layer}, alreadyAdded: boolean) {
+    addLayer (layer: { mapObject: leaflet.Layer }, alreadyAdded: boolean) {
       if (!alreadyAdded) {
         (this.mapObject as leaflet.MarkerClusterGroup).addLayer(layer.mapObject)
       }
     },
-    removeLayer (layer: {mapObject: leaflet.Layer}, alreadyRemoved: boolean) {
+    removeLayer (layer: { mapObject: leaflet.Layer }, alreadyRemoved: boolean) {
       if (!alreadyRemoved && this.mapObject !== null) {
         (this.mapObject as leaflet.MarkerClusterGroup).removeLayer(layer.mapObject)
       }

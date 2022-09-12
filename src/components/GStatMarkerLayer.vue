@@ -3,37 +3,24 @@
     v-if="!disableClustering"
     ref="clusterlayer"
     :data="markerData"
-    :icon-func="getMarkerIcon"
     :options="clusterOptions"
     @ready="$emit('ready')"
+    @click="onClick"
   >
-    <!--
-    <l-marker
-      v-for="marker of validPoints"
-      :key="marker.id"
-      :lat-lng="[marker.lat, marker.lon]"
-      :draggable="marker.draggable"
-      :icon="getMarkerIcon(marker)"
-      @click="onClick(marker)"
-      @update:latLng="onPositionUpdate(marker, $event)"
+    <l-popup
+      v-if="popupComponent"
+      ref="shadow-popup"
+      :options="{
+        offset: popupOffset,
+        minWidth: popupWidth
+      }"
     >
-      <l-popup
-        v-if="popupComponent"
-        :options="{
-          offset: popupOffset,
-          minWidth: popupWidth
-        }"
-      >
-        <component
-          :is="popupComponent"
-          v-if="(!popupLazy || marker.touched)"
-          :marker="marker"
-          :callback-data="callbackData"
-        />
-        <div v-else />
-      </l-popup>
-    </l-marker>
-    -->
+      <component
+        :is="popupComponent"
+        :marker="currentMarker"
+        :callback-data="callbackData"
+      />
+    </l-popup>
   </marker-cluster>
   <div v-else>
     <l-marker
@@ -71,6 +58,12 @@ import { LMarker, LPopup } from 'vue2-leaflet'
 import { createIconClass } from '@/util/markerUtils'
 import Vue, { PropType } from 'vue'
 import { FeatureGroup, Point, LatLng, Marker } from 'leaflet'
+
+const GStatMarker: Marker = Marker.extend({
+  options: {
+    item: 'Original Data passed down'
+  }
+})
 
 export default Vue.extend({
   name: 'GStatMarkerLayer',
@@ -119,7 +112,9 @@ export default Vue.extend({
   },
   data () {
     return {
-      popupOffset: new Point(0, -15)
+      popupOffset: new Point(0, -15),
+      currentMarker: null,
+      popupRefresh: 0
     }
   },
   computed: {
@@ -137,8 +132,8 @@ export default Vue.extend({
     },
     markerData () {
       const ret = []
-      for(const point of this.validPoints) {
-        ret.push(new Marker([point.lat, point.lon], { icon: this.getMarkerIcon(point)}))
+      for (const point of this.validPoints) {
+        ret.push(new GStatMarker([point.lat, point.lon], { icon: this.getMarkerIcon(point), item: point }))
       }
       return ret
     },
@@ -162,9 +157,12 @@ export default Vue.extend({
     getLayer: function (): FeatureGroup {
       return (this.$refs.clusterlayer as any).mapObject
     },
-    onClick: function (item: MarkerItem): void {
-      Vue.set(item, 'touched', true)
-      this.$emit('click', item)
+    onClick: function (event): void {
+      console.log(event.sourceTarget.options.item)
+      Vue.set(event.sourceTarget.options.item, 'touched', true)
+      this.currentMarker = event.sourceTarget.options.item
+      this.$emit('click', event.sourceTarget.options.item)
+      this.popupRefresh++
     },
     onPositionUpdate: function (marker: MarkerItem, latLng: LatLng): void {
       this.$emit('marker-move', { marker: marker, newPosition: latLng })
