@@ -19,8 +19,6 @@
       :area-fill-opacity-func="1"
       :area-border-opacity-func="1"
       :area-border-width-func="1"
-      @marker-move="onMarkerMove"
-      @marker-click="onMarkerClick"
     >
       <template #legend>
         <div style="background: white">
@@ -61,8 +59,7 @@
 import GStatBaseMap from '../../src/components/GStatBaseMap.vue'
 import Vue from 'vue'
 import axios from 'axios'
-import { MarkerItem } from '@/types'
-import { LatLng, divIcon, Point } from 'leaflet'
+import { divIcon, Point } from 'leaflet'
 import TestPopupContent from './TestPopupContent.vue'
 
 export default Vue.extend({
@@ -95,40 +92,24 @@ export default Vue.extend({
       f.type = 'Feature'
     })
     this.geoJson = geo
-    this.markerData = [
-      {
-        id: 1,
-        lat: 46.5,
-        lon: 11
-      },
-      {
-        id: 2,
-        lat: 46.5,
-        lon: 11
-      },
-      {
-        id: 3,
-        lat: 46.5,
-        lon: 11
-      },
-      {
-        id: 4,
-        lat: 46.5,
-        lon: 11
-      },
-    ]
+    this.markerData = []
+    for (let i = 0; i < 35; i++) {
+      const batch = []
+      //Simulate Backend API-Calls
+      await new Promise(resolve => setTimeout(resolve, 150))
+      for (let j = 0; j < 100; j++) {
+        batch.push({
+          id: i * 100 + j,
+          lat: 46.5 + Math.random(),
+          lon: 11 + Math.random()
+        })
+      }
+      this.markerData = this.markerData.concat(batch)
+      console.log('batch' + i)
+    }
+    //Add 20 Batches of 100 Markers each
   },
   methods: {
-    onMarkerMove: function (event: { marker: MarkerItem, newPosition: LatLng }) {
-      console.log(event)
-      //this.markerData[0].lat = event.newPosition.lat
-      //this.markerData[0].lon = event.newPosition.lng
-      //event.marker.lat = event.newPosition.lat
-      //event.marker.lon = event.newPosition.lng
-    },
-    onMarkerClick: function (marker: any) {
-      console.log(marker)
-    }
   }
 })
 </script>
