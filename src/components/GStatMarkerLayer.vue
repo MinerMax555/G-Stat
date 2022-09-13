@@ -148,6 +148,7 @@ export default Vue.extend({
       return {
         maxClusterRadius: 50,
         iconCreateFunction: this.clusterIconFunc,
+        removeOutsideVisibleBounds: false,
         iconSize: new Point(40, 40)
       }
     }
