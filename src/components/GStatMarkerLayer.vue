@@ -165,10 +165,10 @@ export default Vue.extend({
       return (this.$refs.clusterlayer as any).mapObject
     },
     onClick: function (event: LeafletMouseEvent): void {
-      console.log(event.sourceTarget.options.item)
-      Vue.set(event.sourceTarget.options.item, 'touched', true)
-      this.currentMarker = event.sourceTarget.options.item
-      this.$emit('click', event.sourceTarget.options.item)
+      const item = event.sourceTarget ? event.sourceTarget.options.item : event.target.options.item
+      Vue.set(item, 'touched', true)
+      this.currentMarker = item
+      this.$emit('click', item)
       this.popupRefresh++
     },
     onPositionUpdate: function (marker: MarkerItem, latLng: LatLng): void {
